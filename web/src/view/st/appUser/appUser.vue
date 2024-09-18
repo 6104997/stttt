@@ -47,7 +47,9 @@
         <div class="gva-btn-list">
             <el-button  type="primary" icon="plus" @click="openDialog">新增</el-button>
             <el-button  icon="delete" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="onDelete">删除</el-button>
-            
+            <ExportTemplate  template-id="st_AppUser" />
+            <ExportExcel  template-id="st_AppUser" />
+            <ImportExcel  template-id="st_AppUser" @on-success="getTableData" />
         </div>
         <el-table
         ref="multipleTable"
@@ -70,7 +72,6 @@
               </template>
           </el-table-column>
           <el-table-column align="left" label="openpid" prop="openpid" width="120" />
-          <el-table-column align="left" label="uuid" prop="uuid" width="120" />
           <el-table-column align="left" label="当前积分" prop="currentPoints" width="120" />
           <el-table-column align="left" label="签到" prop="signIn" width="120" />
           <el-table-column align="left" label="电话号" prop="phone" width="120" />
@@ -180,7 +181,12 @@ import { getDictFunc, formatDate, formatBoolean, filterDict ,filterDataSource, r
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref, reactive } from 'vue'
 
-
+// 导出组件
+import ExportExcel from '@/components/exportExcel/exportExcel.vue'
+// 导入组件
+import ImportExcel from '@/components/exportExcel/importExcel.vue'
+// 导出模板组件
+import ExportTemplate from '@/components/exportExcel/exportTemplate.vue'
 
 
 defineOptions({

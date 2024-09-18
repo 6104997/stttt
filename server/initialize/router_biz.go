@@ -12,10 +12,9 @@ func holder(routers ...*gin.RouterGroup) {
 func initBizRouter(routers ...*gin.RouterGroup) {
 	privateGroup := routers[0]
 	publicGroup := routers[1]
-	holder(publicGroup, privateGroup)
+	holder(publicGroup, privateGroup) // 占位方法，保证文件可以正确加载，避免go空变量检测报错，请勿删除。
 	{
 		stRouter := router.RouterGroupApp.St
-		stRouter.InitAppUserRouter(privateGroup, publicGroup) // 占位方法，保证文件可以正确加载，避免go空变量检测报错，请勿删除。
-		stRouter.InitArouselImageRouter(privateGroup, publicGroup)
+		stRouter.InitAppUserRouter(privateGroup, publicGroup)
 	}
 }

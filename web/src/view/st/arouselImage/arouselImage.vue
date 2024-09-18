@@ -16,7 +16,7 @@
        —
       <el-date-picker v-model="searchInfo.endCreatedAt" type="datetime" placeholder="结束日期" :disabled-date="time=> searchInfo.startCreatedAt ? time.getTime() < searchInfo.startCreatedAt.getTime() : false"></el-date-picker>
       </el-form-item>
-      
+
 
         <template v-if="showAllQuery">
           <!-- 将需要控制显示状态的查询条件添加到此范围内 -->
@@ -34,7 +34,7 @@
         <div class="gva-btn-list">
             <el-button  type="primary" icon="plus" @click="openDialog">新增</el-button>
             <el-button  icon="delete" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="onDelete">删除</el-button>
-            
+
         </div>
         <el-table
         ref="multipleTable"
@@ -45,12 +45,18 @@
         @selection-change="handleSelectionChange"
         >
         <el-table-column type="selection" width="55" />
-        
+
         <el-table-column align="left" label="日期" prop="createdAt" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        
-          <el-table-column align="left" label="轮播图" prop="image" width="120" />
+
+          <el-table-column align="left" label="轮播图" prop="image" width="120" >
+
+            <template #default="scope">
+              <el-image style="width: 100px; height: 100px;" :src="scope.row.image" fit="contain"></el-image>
+            </template>
+
+          </el-table-column>
           <el-table-column align="left" label="轮播介绍" prop="introductionToRotatingBroadcasting" width="120" />
           <el-table-column align="left" label="跳转地址" prop="path" width="120" />
         <el-table-column align="left" label="操作" fixed="right" min-width="240">
@@ -99,9 +105,13 @@
 
     <el-drawer destroy-on-close size="800" v-model="detailShow" :show-close="true" :before-close="closeDetailShow">
             <el-descriptions :column="1" border>
-                    <el-descriptions-item label="轮播图">
+                    <el-descriptions-item label="轮播图地址">
                         {{ detailFrom.image }}
                     </el-descriptions-item>
+                    <el-descriptions-item label="轮播图地址">
+                        <el-image style="width: 100px; height: 100px;" :src="detailFrom.image" fit="contain"></el-image>
+                    </el-descriptions-item>
+
                     <el-descriptions-item label="轮播介绍">
                         {{ detailFrom.introductionToRotatingBroadcasting }}
                     </el-descriptions-item>
