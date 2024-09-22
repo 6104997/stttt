@@ -108,3 +108,16 @@ export const getAppUserPublic = () => {
     method: 'get',
   })
 }
+// Login 方法介绍
+// @Tags AppUser
+// @Summary 方法介绍
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/Login [POST]
+export const Login = () => {
+  return service({
+    url: '/appUser/Login',
+    method: 'POST'
+  })
+}

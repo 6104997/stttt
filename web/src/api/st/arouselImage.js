@@ -108,3 +108,16 @@ export const getArouselImagePublic = () => {
     method: 'get',
   })
 }
+// GetImage 方法介绍
+// @Tags ArouselImage
+// @Summary 方法介绍
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /arouselImage/GetImage [GET]
+export const GetImage = () => {
+  return service({
+    url: '/arouselImage/GetImage',
+    method: 'GET'
+  })
+}

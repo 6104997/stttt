@@ -3,11 +3,13 @@ package st
 import api "github.com/flipped-aurora/gin-vue-admin/server/api/v1"
 
 type RouterGroup struct {
-	ArouselImageRouter
 	AppUserRouter
+	ArouselImageRouter
+	AnnouncementManagementRouter
 }
 
 var (
-	arouselImageApi = api.ApiGroupApp.StApiGroup.ArouselImageApi
-	appUserApi      = api.ApiGroupApp.StApiGroup.AppUserApi
+	appUserApi                = api.ApiGroupApp.StApiGroup.AppUserApi
+	arouselImageApi           = api.ApiGroupApp.StApiGroup.ArouselImageApi
+	announcementManagementApi = api.ApiGroupApp.StApiGroup.AnnouncementManagementApi
 )

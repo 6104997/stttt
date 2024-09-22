@@ -71,3 +71,19 @@ func (arouselImageService *ArouselImageService) GetArouselImagePublic() {
 	// 此方法为获取数据源定义的数据
 	// 请自行实现
 }
+
+// GetImage 方法介绍
+// Author [yourname](https://github.com/yourname)
+//
+//	func (arouselImageService *ArouselImageService) GetImage() (arouselImage st.ArouselImage, err error) {
+//		// 请在这里实现自己的业务逻辑+
+//		//获取全部 arouselImage 表数据
+//
+//		err = global.GVA_DB.Find(&arouselImage).Error
+//		return
+//	}
+func (arouselImageService *ArouselImageService) GetImage() (arouselImages []st.ArouselImage, err error) {
+	// 获取全部 arouselImage 表数据
+	err = global.GVA_DB.Find(&arouselImages).Error
+	return
+}

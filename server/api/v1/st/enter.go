@@ -3,11 +3,13 @@ package st
 import "github.com/flipped-aurora/gin-vue-admin/server/service"
 
 type ApiGroup struct {
-	ArouselImageApi
 	AppUserApi
+	ArouselImageApi
+	AnnouncementManagementApi
 }
 
 var (
-	arouselImageService = service.ServiceGroupApp.StServiceGroup.ArouselImageService
-	appUserService      = service.ServiceGroupApp.StServiceGroup.AppUserService
+	appUserService                = service.ServiceGroupApp.StServiceGroup.AppUserService
+	arouselImageService           = service.ServiceGroupApp.StServiceGroup.ArouselImageService
+	announcementManagementService = service.ServiceGroupApp.StServiceGroup.AnnouncementManagementService
 )

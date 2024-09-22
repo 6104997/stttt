@@ -166,3 +166,22 @@ func (arouselImageApi *ArouselImageApi) GetArouselImagePublic(c *gin.Context) {
 		"info": "不需要鉴权的arouselImage表接口信息",
 	}, "获取成功", c)
 }
+
+// GetImage 获取轮播图图片
+// @Tags ArouselImage
+// @Summary 方法介绍
+// @accept application/json
+// @Produce application/json
+// @Param data query stReq.ArouselImageSearch true "成功"
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /arouselImage/GetImage [GET]
+func (arouselImageApi *ArouselImageApi) GetImage(c *gin.Context) {
+	// 获取轮播图图片
+	listImage, err := arouselImageService.GetImage()
+	if err != nil {
+		global.GVA_LOG.Error("失败!", zap.Error(err))
+		response.FailWithMessage("失败", c)
+		return
+	}
+	response.OkWithData(listImage, c)
+}
