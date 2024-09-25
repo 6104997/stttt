@@ -16,13 +16,13 @@
        —
       <el-date-picker v-model="searchInfo.endCreatedAt" type="datetime" placeholder="结束日期" :disabled-date="time=> searchInfo.startCreatedAt ? time.getTime() < searchInfo.startCreatedAt.getTime() : false"></el-date-picker>
       </el-form-item>
-      
+
         <el-form-item label="昵称" prop="nickname">
          <el-input v-model="searchInfo.nickname" placeholder="搜索条件" />
 
         </el-form-item>
         <el-form-item label="当前积分" prop="currentPoints">
-            
+
              <el-input v-model.number="searchInfo.currentPoints" placeholder="搜索条件" />
 
         </el-form-item>
@@ -60,18 +60,18 @@
         @selection-change="handleSelectionChange"
         >
         <el-table-column type="selection" width="55" />
-        
+
         <el-table-column align="left" label="日期" prop="createdAt" width="180">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        
+
           <el-table-column align="left" label="昵称" prop="nickname" width="120" />
           <el-table-column label="头像" prop="headPortrait" width="200">
               <template #default="scope">
                 <el-image preview-teleported style="width: 100px; height: 100px" :src="getUrl(scope.row.headPortrait)" fit="cover"/>
               </template>
           </el-table-column>
-          <el-table-column align="left" label="openpid" prop="openpid" width="120" />
+          <el-table-column align="left" label="openpid" prop="openpid" width="280" />
           <el-table-column align="left" label="当前积分" prop="currentPoints" width="120" />
           <el-table-column align="left" label="签到" prop="signIn" width="120" />
           <el-table-column align="left" label="电话号" prop="phone" width="120" />
@@ -188,7 +188,7 @@ import ImportExcel from '@/components/exportExcel/importExcel.vue'
 // 导出模板组件
 import ExportTemplate from '@/components/exportExcel/exportTemplate.vue'
 
-
+//updateTheImage
 defineOptions({
     name: 'AppUser'
 })

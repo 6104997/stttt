@@ -121,3 +121,55 @@ export const Login = () => {
     method: 'POST'
   })
 }
+// GetUserinfo 用户数据表单
+// @Tags AppUser
+// @Summary 用户数据表单
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/getUserinfo [GET]
+export const getUserinfo = () => {
+  return service({
+    url: '/appUser/getUserinfo',
+    method: 'GET'
+  })
+}
+// UpdateTheImage 更新头像
+// @Tags AppUser
+// @Summary 更新头像
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/updateTheImage [GET]
+export const updateTheImage = () => {
+  return service({
+    url: '/appUser/updateTheImage',
+    method: 'GET'
+  })
+}
+// Upnickname 更新昵称
+// @Tags AppUser
+// @Summary 更新昵称
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/opnickname [GET]
+export const opnickname = () => {
+  return service({
+    url: '/appUser/opnickname',
+    method: 'GET'
+  })
+}
+// Upnickname 方法介绍
+// @Tags AppUser
+// @Summary 方法介绍
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/upnickname [GET]
+export const upnickname = () => {
+  return service({
+    url: '/appUser/upnickname',
+    method: 'GET'
+  })
+}

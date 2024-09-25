@@ -1,9 +1,11 @@
 package st
 
 import (
+	"fmt"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/st"
 	stReq "github.com/flipped-aurora/gin-vue-admin/server/model/st/request"
+	"github.com/gofrs/uuid/v5"
 )
 
 type AppUserService struct{}
@@ -83,8 +85,49 @@ func (appUserService *AppUserService) GetAppUserPublic() {
 
 // Login 方法介绍
 // Author [yourname](https://github.com/yourname)
-func (appUserService *AppUserService) Login() (err error) {
+func (appUserService *AppUserService) Login(openpid string) (appUser st.AppUser, err error) {
+	// 查询数据库中是否存在openpid,如果存在则返回数据，如果不存在则创建数据并返回数据
+	err = global.GVA_DB.Where("openpid = ?", openpid).First(&appUser).Error
+	if err != nil {
+
+		appUser.Openpid = openpid
+		appUser.Uuid = uuid.Must(uuid.NewV4())
+		err = global.GVA_DB.Create(&appUser).Error
+		if err != nil {
+			return
+		}
+
+	}
+
+	fmt.Println("Login", err)
+	//db := global.GVA_DB.Model(&st.AppUser{})
+	return
+}
+
+// GetUserinfo 用户数据表单
+// Author [yourname](https://github.com/yourname)
+func (appUserService *AppUserService) GetUserinfo(id uint) (user st.AppUser, err error) {
 	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&st.AppUser{})
-	return db.Error
+	err = global.GVA_DB.First(&user, id).Error
+	return
+}
+
+// UpdateTheImage 更新头像
+// Author [yourname](https://github.com/yourname)
+func (appUserService *AppUserService) UpdateTheImage(id uint, image string) (user st.AppUser, err error) {
+	// 请在这里实现自己的业务逻辑
+
+	user.HeadPortrait = image
+	err = global.GVA_DB.Where("id = ?", id).Updates(&user).Error
+
+	return
+}
+
+// Upnickname 方法介绍
+// Author [yourname](https://github.com/yourname)
+func (appUserService *AppUserService) Upnickname(id uint, nickname string) (user st.AppUser, err error) {
+	// 请在这里实现自己的业务逻辑
+	user.Nickname = nickname
+	err = global.GVA_DB.Where("id = ?", id).Updates(&user).Error
+	return
 }

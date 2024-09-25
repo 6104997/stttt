@@ -16,6 +16,10 @@ func (s *AppUserRouter) InitAppUserRouter(Router *gin.RouterGroup, PublicRouter 
 		appUserRouter.DELETE("deleteAppUser", appUserApi.DeleteAppUser)
 		appUserRouter.DELETE("deleteAppUserByIds", appUserApi.DeleteAppUserByIds)
 		appUserRouter.PUT("updateAppUser", appUserApi.UpdateAppUser)
+		appUserRouter.GET("getUserinfo", appUserApi.GetUserinfo)
+		appUserRouter.GET("updateTheImage", appUserApi.UpdateTheImage)
+		appUserRouter.GET("upnickname", appUserApi.Upnickname)
+
 	}
 	{
 		appUserRouterWithoutRecord.GET("findAppUser", appUserApi.FindAppUser)
@@ -23,6 +27,7 @@ func (s *AppUserRouter) InitAppUserRouter(Router *gin.RouterGroup, PublicRouter 
 	}
 	{
 		appUserRouterWithoutAuth.GET("getAppUserPublic", appUserApi.GetAppUserPublic)
-		appUserRouterWithoutAuth.POST("Login", appUserApi.Login)
+		appUserRouterWithoutAuth.GET("Login", appUserApi.Login)
+
 	}
 }

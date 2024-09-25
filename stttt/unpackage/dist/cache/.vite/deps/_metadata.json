@@ -1,0 +1,15 @@
+{
+  "hash": "6dbe574d",
+  "configHash": "cd8dcb36",
+  "lockfileHash": "aa937ad6",
+  "browserHash": "3e8967d4",
+  "optimized": {
+    "weapp-cookie": {
+      "src": "../../../../../node_modules/weapp-cookie/dist/weapp-cookie.umd.js",
+      "file": "weapp-cookie.js",
+      "fileHash": "cbf5be37",
+      "needsInterop": true
+    }
+  },
+  "chunks": {}
+}
