@@ -15,6 +15,7 @@
 					<slot name="listrighticons"></slot>
 
 				</view>
+				
 			</view>
 		</view>
 	</view>

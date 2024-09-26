@@ -119,9 +119,7 @@
             <el-form-item label="openpid:"  prop="openpid" >
               <el-input v-model="formData.openpid" :clearable="true"  placeholder="请输入openpid" />
             </el-form-item>
-            <el-form-item label="uuid:"  prop="uuid" >
-              <el-input v-model="formData.uuid" :clearable="true"  placeholder="请输入uuid" />
-            </el-form-item>
+            
             <el-form-item label="当前积分:"  prop="currentPoints" >
               <el-input v-model.number="formData.currentPoints" :clearable="true" placeholder="请输入当前积分" />
             </el-form-item>
@@ -201,7 +199,7 @@ const formData = ref({
             nickname: '',
             headPortrait: "",
             openpid: '',
-            uuid: '',
+            
             currentPoints: undefined,
             signIn: undefined,
             phone: '',
@@ -386,7 +384,7 @@ const closeDialog = () => {
         nickname: '',
         headPortrait: "",
         openpid: '',
-        uuid: '',
+        
         currentPoints: undefined,
         signIn: undefined,
         phone: '',

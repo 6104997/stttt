@@ -15,7 +15,8 @@ useAppStore()
 defineOptions({
   name: 'App'
 })
-
+//article
+// price
 </script>
 <style lang="scss">
 

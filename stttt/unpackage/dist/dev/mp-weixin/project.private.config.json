@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "",
+          "pathName": "pages/detail/detail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/personalCenter/personalCenter",
           "pathName": "pages/personalCenter/personalCenter",
           "query": "",

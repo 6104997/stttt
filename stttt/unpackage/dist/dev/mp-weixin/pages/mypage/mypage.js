@@ -1,15 +1,18 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const utils_system = require("../../utils/system.js");
 const api_request = require("../../api/request.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_common_userlist2 = common_vendor.resolveComponent("common-userlist");
-  (_easycom_uni_icons2 + _easycom_common_userlist2)();
+  const _easycom_common_userlist_button2 = common_vendor.resolveComponent("common-userlist-button");
+  (_easycom_uni_icons2 + _easycom_common_userlist2 + _easycom_common_userlist_button2)();
 }
 const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_common_userlist = () => "../../components/common-userlist/common-userlist.js";
+const _easycom_common_userlist_button = () => "../../components/common-userlist-button/common-userlist-button.js";
 if (!Math) {
-  (_easycom_uni_icons + _easycom_common_userlist)();
+  (_easycom_uni_icons + _easycom_common_userlist + _easycom_common_userlist_button)();
 }
 const _sfc_main = {
   __name: "mypage",
@@ -30,6 +33,11 @@ const _sfc_main = {
         });
       }
     };
+    const clickJump = () => {
+      common_vendor.index.navigateTo({
+        url: "/pages/personalCenter/personalCenter"
+      });
+    };
     Login();
     common_vendor.onMounted(async () => {
       if (common_vendor.cookies.get("x-token")) {
@@ -39,28 +47,31 @@ const _sfc_main = {
     });
     return (_ctx, _cache) => {
       return common_vendor.e({
-        a: User.value
+        a: common_vendor.unref(utils_system.getNavBarheight)() + "px",
+        b: User.value
       }, User.value ? {
-        b: User.value.headPortrait,
-        c: common_vendor.t(User.value.nickname),
-        d: common_vendor.t(User.value.ID)
+        c: User.value.headPortrait,
+        d: common_vendor.o(clickJump),
+        e: common_vendor.t(User.value.nickname),
+        f: common_vendor.o(clickJump),
+        g: common_vendor.t(User.value.ID)
       } : {}, {
-        e: common_vendor.p({
+        h: common_vendor.p({
           type: "contact-filled",
           size: "30",
           color: "#23b389"
         }),
-        f: common_vendor.p({
+        i: common_vendor.p({
           type: "right",
           size: "15",
           color: "#aaa"
         }),
-        g: common_vendor.p({
+        j: common_vendor.p({
           type: "weixin",
           size: "30",
           color: "#23b389"
         }),
-        h: common_vendor.p({
+        k: common_vendor.p({
           type: "right",
           size: "15",
           color: "#aaa"

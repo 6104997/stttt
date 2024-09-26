@@ -1,10 +1,12 @@
 <template>
 	<view class="classuser PageBg">
+    <view :style="{height:getNavBarheight()+'px'}"></view>
+		
 		<view class="userLayout" v-if="User">
 			<view class="avatar">
-				<image :src='User.headPortrait' mode="aspectFill"></image>
+				<image :src='User.headPortrait' mode="aspectFill" @click="clickJump"></image>
 			</view>
-			<view class="userName weui-input">{{User.nickname}}</view>
+			<view class="userName weui-input" @click="clickJump">{{User.nickname}}</view>
 
 
 
@@ -13,6 +15,7 @@
 			</view>
 		</view>
 
+		<navigator url="/pages/personalCenter/personalCenter">
 
 		<common-userlist>
 			<template #listicons>
@@ -27,7 +30,8 @@
 				<uni-icons type="right" size="15" color="#aaa"></uni-icons>
 			</template>
 		</common-userlist>
-		<common-userlist>
+		</navigator>
+		<common-userlist-button>
 			<template #listicons>
 				<view class="deta">
 					<uni-icons type="weixin" size="30" color="#23b389"></uni-icons>
@@ -39,30 +43,20 @@
 			<template #listrighticons>
 				<uni-icons type="right" size="15" color="#aaa"></uni-icons>
 			</template>
-		</common-userlist>
-
-
-
-
-
-
-
-
-
-
+		</common-userlist-button>
 	</view>
 </template>
 
 
 <script setup>
 	import cookies from 'weapp-cookie'
-
+	import {getNavBarheight} from '@/utils/system.js'
 	import {
 		onMounted,
 		ref
 	} from 'vue';
 	import {
-		RequestApi,
+
 		GetLogin,
 		GetUserinfo
 	} from '@/api/request.js'
@@ -86,14 +80,15 @@
 
 			})
 		}
-
-
-
 	}
 
-	//personalCenter
 
+  const clickJump = () => {
+    uni.navigateTo({
+      url: '/pages/personalCenter/personalCenter'
+    });
 
+  }
 
 	Login()
 

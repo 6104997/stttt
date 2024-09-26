@@ -3,73 +3,8 @@ import {
 	request
 } from '@/utils/request.js'
 import cookies from 'weapp-cookie'
-function RequestApi(url, data = {}, method = 'GET') {
-	return new Promise((resolve, reject) => {
-		wx.request({
-			url: baseUrl + url,
-			header: {
-				'content-type': 'application/json' // 默认值
-			},
-			method,
-			data,
-			success: (res) => {
 
-				resolve(res.data)
-			},
-			fail: (err) => {
-				console.log(err);
-				reject(err)
-			},
-		})
-
-	})
-}
-
-function GetRequestApi(url, data = {}, method = 'GET') {
-	return new Promise((resolve, reject) => {
-		wx.request({
-			url: baseUrl + url,
-			header: {
-				'content-type': 'application/json' // 默认值
-			},
-			method,
-			data,
-			success: (res) => {
-
-				resolve(res.data)
-			},
-			fail: (err) => {
-				console.log(err);
-				reject(err)
-			},
-		})
-
-	})
-}
-
-function PostRequestApi(url, data = {}, method = 'POST') {
-	return new Promise((resolve, reject) => {
-		wx.request({
-			url: baseUrl + url,
-			header: {
-				'content-type': 'application/json' // 默认值
-			},
-			method,
-			data,
-			success: (res) => {
-
-				resolve(res.data)
-			},
-			fail: (err) => {
-				console.log(err);
-				reject(err)
-			},
-		})
-
-	})
-}
-
-
+//获取用户信息表单
 export const GetUserinfo = () => {
 	return request({
 		url: '/appUser/getUserinfo',
@@ -77,6 +12,7 @@ export const GetUserinfo = () => {
 	})
 }
 
+//登录
 export const GetLogin = (openpidcode) => {
 	return request({
 		url: '/appUser/Login?openpid=' + openpidcode,
@@ -86,6 +22,7 @@ export const GetLogin = (openpidcode) => {
 }
 
 
+//修改头像
 export const GetUpdateTheImage = (url) => {
 	return request({
 		url: '/appUser/updateTheImage?image=' + url,
@@ -93,26 +30,71 @@ export const GetUpdateTheImage = (url) => {
 	})
 
 }
+
+//修改昵称
 export const GetUpnikname = (nickname) => {
 	return request({
 		url: '/appUser/upnickname?nickname=' + nickname,
 		method: "GET"
 	})
 }
-export function uploadFile(filePath) {
-    return new Promise((resolve, reject) => {
-        wx.uploadFile({
-            url: 'http://localhost:8891/fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
-            filePath: filePath,
-            name: 'file',
-            formData: {},
-            header: {
-                'x-token': cookies.get("x-token")
-            },
-            success: resolve, // 成功时调用 resolve
-            fail: reject // 失败时调用 reject
-        });
-    });
+
+//获取公告内容列表
+export const getAListOfAnnouncements = () => {
+	return request({
+		url: '/announcementManagement/getAListOfAnnouncements',
+		method: "GET"
+	})
+}
+
+//获取轮播图
+export const GetImage = () => {
+	return request({
+		url: '/arouselImage/GetImage',
+		method: "GET"
+	})
+}
+//根据UUID查询文章
+export const getArticleManagementByUUID = (uuid) => {
+	return request({
+		url: '/articleManagement/getArticleManagementByUUID?uuid=' + uuid,
+		method: "GET"
+	})
+}
+//获取文章列表
+export const getAListOfArticles = (page, pageSize, dictionaryID) => {
+	return request({
+		url: '/articleManagement/getAListOfArticles?page=' + page + '&pageSize=' + pageSize +
+			'&dictionaryID=' + dictionaryID,
+		method: "GET"
+	})
+}
+
+
+//转换时间格式
+
+export const convertTimeFormat = (tim) => {
+	let date = new Date(tim)
+	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+}
+
+
+export function uploadFile(filePath, uuid) {
+	return new Promise((resolve, reject) => {
+		wx.uploadFile({
+			url: 'http://localhost:8891/fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
+			filePath: filePath,
+			name: 'file',
+			formData: {
+				'name': uuid
+			},
+			header: {
+				'x-token': cookies.get("x-token")
+			},
+			success: resolve, // 成功时调用 resolve
+			fail: reject // 失败时调用 reject
+		});
+	});
 }
 
 

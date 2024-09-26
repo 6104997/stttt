@@ -10,3 +10,9 @@ view,swiper,swiper-item{
 	
 	
 }
+.loadingLayout{
+	padding: 30rpx;
+}
+.safe-area-inset-buttom{
+	height: env(safe-area-inset-bottom);
+}

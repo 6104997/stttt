@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const api_request = require("../../api/request.js");
+const utils_system = require("../../utils/system.js");
 const _sfc_main = {
   __name: "personalCenter",
   setup(__props) {
@@ -18,15 +19,17 @@ const _sfc_main = {
       Userinfos.value.nickname = event.target.value;
     }
     async function Update() {
-      const res = await api_request.uploadFile(temporaryAddress);
-      const data = JSON.parse(res.data);
-      console.log(data);
-      if (data.code == 0) {
-        const urls = "http://localhost:8080/api/" + data.data.file.url;
-        console.log(urls);
-        console.log(await api_request.GetUpdateTheImage(urls));
-        console.log(await api_request.GetUpnikname(Userinfos.value.nickname));
+      if (temporaryAddress) {
+        const res = await api_request.uploadFile(temporaryAddress, Userinfos.value.uuid);
+        const data = JSON.parse(res.data);
+        console.log(data);
+        if (data.code == 0) {
+          const urls = "http://localhost:8080/api/" + data.data.file.url;
+          console.log(urls);
+          console.log(await api_request.GetUpdateTheImage(urls));
+        }
       }
+      console.log(await api_request.GetUpnikname(Userinfos.value.nickname));
     }
     common_vendor.onMounted(async () => {
       if (common_vendor.cookies.get("x-token")) {
@@ -53,13 +56,14 @@ const _sfc_main = {
     });
     return (_ctx, _cache) => {
       return {
-        a: Userinfos.value.image,
-        b: common_vendor.o(onChooseAvatar),
-        c: common_vendor.o(Upnickname),
-        d: Userinfos.value.nickname,
-        e: common_vendor.o(($event) => Userinfos.value.nickname = $event.detail.value),
-        f: common_vendor.t(Userinfos.value.uuid),
-        g: common_vendor.o(Update)
+        a: common_vendor.unref(utils_system.getNavBarheight)() + "px",
+        b: Userinfos.value.image,
+        c: common_vendor.o(onChooseAvatar),
+        d: common_vendor.o(Upnickname),
+        e: Userinfos.value.nickname,
+        f: common_vendor.o(($event) => Userinfos.value.nickname = $event.detail.value),
+        g: common_vendor.t(Userinfos.value.uuid),
+        h: common_vendor.o(Update)
       };
     };
   }
