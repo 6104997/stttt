@@ -25,7 +25,20 @@
             <el-select v-model="searchInfo.article_status" clearable placeholder="请选择" @clear="()=>{searchInfo.article_status=undefined}">
               <el-option v-for="(item,key) in stateOptions" :key="key" :label="item.label" :value="item.value" />
             </el-select>
-            </el-form-item>
+        </el-form-item>
+        <el-form-item label="文章类型" prop="article_classification_id">
+            <el-select v-model="searchInfo.article_classification_id" clearable placeholder="请选择" @clear="()=>{searchInfo.article_classification_id=undefined}">
+              <el-option v-for="(item,key) in ArticleClassificationIdOptions" :key="key" :label="item.label" :value="item.value" />
+            </el-select>
+        </el-form-item>
+        <!-- accountTypeOptions -->
+        <el-form-item label="账号类型" prop="account_type">
+            <el-select v-model="searchInfo.account_type" clearable placeholder="请选择" @clear="()=>{searchInfo.account_type=undefined}">
+              <el-option v-for="(item,key) in accountTypeOptions" :key="key" :label="item.label" :value="item.value" />
+            </el-select>
+        </el-form-item>
+
+        
         <el-form-item label="作者" prop="author">
          <el-input v-model="searchInfo.author" placeholder="搜索条件" />
 
@@ -102,6 +115,17 @@
             {{ filterDict(scope.row.article_status,stateOptions) }}
             </template>
         </el-table-column>
+        <el-table-column align="left" label="文章类型" prop="article_classification_id" width="120">
+            <template #default="scope">
+            {{ filterDict(scope.row.article_classification_id,ArticleClassificationIdOptions) }}
+            </template>
+        </el-table-column>
+        <el-table-column align="left" label="账号类型" prop="account_type" width="120">
+            <template #default="scope">
+            {{ filterDict(scope.row.account_type,accountTypeOptions) }}
+            </template>
+        </el-table-column>
+
           <el-table-column align="left" label="作者" prop="author" width="120" />
           <el-table-column align="left" label="阅读次数" prop="view_count" width="120" />
         <el-table-column align="left" label="置顶" prop="select" width="120">
@@ -152,25 +176,40 @@
             <el-form-item label="文章标题:"  prop="title" >
               <el-input v-model="formData.title" :clearable="true"  placeholder="请输入资讯标题" />
             </el-form-item>
+            <el-form-item label="文章内容:"  prop="content" >
+              <RichEdit v-model="formData.content"/>
+            </el-form-item>
+            
+            <el-form-item label="作者:"  prop="author" >
+              <el-input v-model="formData.author" :clearable="true"  placeholder="请输入作者" />
+            </el-form-item>
             <el-form-item label="文章状态:"  prop="article_status" >
               <el-select v-model="formData.article_status" placeholder="请选择文章状态" style="width:100%" :clearable="true" >
                 <el-option v-for="(item,key) in stateOptions" :key="key" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-            <el-form-item label="作者:"  prop="author" >
-              <el-input v-model="formData.author" :clearable="true"  placeholder="请输入作者" />
+            <!--  -->
+            <el-form-item label="文章类型:"  prop="article_classification_id" >
+              <el-select v-model="formData.article_classification_id" placeholder="请选择文章状态" style="width:100%" :clearable="true" >
+                <el-option v-for="(item,key) in ArticleClassificationIdOptions" :key="key" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
+
+
+
             <el-form-item label="阅读次数:"  prop="view_count" >
               <el-input v-model.number="formData.view_count" :clearable="true" placeholder="请输入阅读次数" />
-            </el-form-item>
-            <el-form-item label="文章内容:"  prop="content" >
-              <RichEdit v-model="formData.content"/>
             </el-form-item>
             <el-form-item label="置顶:"  prop="select" >
               <el-switch v-model="formData.select" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable ></el-switch>
             </el-form-item>
             <el-form-item label="账号编号:"  prop="accountNumber" >
               <el-input v-model.number="formData.accountNumber" :clearable="true" placeholder="请输入账号编号" />
+            </el-form-item>
+            <el-form-item label="账号类型:"  prop="account_type" >
+              <el-select v-model="formData.account_type" placeholder="请选择账号类型" style="width:100%" :clearable="true" >
+                <el-option v-for="(item,key) in accountTypeOptions" :key="key" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
             <el-form-item label="联系方式:"  prop="contact" >
               <el-input v-model="formData.contact" :clearable="true"  placeholder="请输入联系方式" />
@@ -198,6 +237,9 @@
                     <el-descriptions-item label="文章状态">
                         {{ detailFrom.article_status }}
                     </el-descriptions-item>
+                    <el-descriptions-item label="文章类型">
+                        {{ detailFrom.article_classification_id }}
+                    </el-descriptions-item>
                     <el-descriptions-item label="作者">
                         {{ detailFrom.author }}
                     </el-descriptions-item>
@@ -213,6 +255,10 @@
                     <el-descriptions-item label="账号编号">
                         {{ detailFrom.accountNumber }}
                     </el-descriptions-item>
+                    <el-descriptions-item label="账号类型">
+                        {{ detailFrom.account_type }}
+                    </el-descriptions-item>
+                    <!--  -->
                     <el-descriptions-item label="联系方式">
                         {{ detailFrom.contact }}
                     </el-descriptions-item>
@@ -260,6 +306,8 @@ const showAllQuery = ref(false)
 
 // 自动化生成的字典（可能为空）以及字段
 const stateOptions = ref([])
+const accountTypeOptions = ref([])
+const ArticleClassificationIdOptions = ref([])
 const formData = ref({
             
             title: '',
@@ -272,6 +320,8 @@ const formData = ref({
             contact: '',
             price: undefined,
             previewTheImage: "",
+            article_classification_id:'',
+            account_type:''
         })
 
 
@@ -314,6 +364,8 @@ const onReset = () => {
 
 // 搜索
 const onSubmit = () => {
+  console.log(searchInfo.value);
+  
   elSearchFormRef.value?.validate(async(valid) => {
     if (!valid) return
     page.value = 1
@@ -355,7 +407,12 @@ getTableData()
 // 获取需要的字典 可能为空 按需保留
 const setOptions = async () =>{
     stateOptions.value = await getDictFunc('state')
+    ArticleClassificationIdOptions.value = await getDictFunc('ArticleClassification')
+    accountTypeOptions.value = await getDictFunc('AccountType')
+
 }
+
+
 
 // 获取需要的字典 可能为空 按需保留
 setOptions()
@@ -465,6 +522,8 @@ const closeDialog = () => {
         contact: '',
         price: undefined,
         previewTheImage: "",
+        article_classification_id:'',
+        account_type:''
         }
 }
 // 弹窗确定

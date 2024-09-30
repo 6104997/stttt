@@ -5,4 +5,5 @@ type ServiceGroup struct {
 	ArouselImageService
 	AnnouncementManagementService
 	ArticleManagementService
+	CategoricalNavigationManagementService
 }

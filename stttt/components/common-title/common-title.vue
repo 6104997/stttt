@@ -1,4 +1,5 @@
 <template>
+	<!-- 暂时没名字的插件 -->
 	<view class="common-title">
 		<view class="name">
 			<slot name="name"></slot>

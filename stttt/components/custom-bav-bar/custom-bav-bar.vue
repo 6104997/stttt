@@ -1,4 +1,5 @@
 <template>
+	<!-- 头部插件 -->
 	<view class="layout">
 		<view class="navbar">
 			<view class="statusBar" :style="{ height: getStatusBarHeight() + 'px' }"></view>

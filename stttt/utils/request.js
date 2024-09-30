@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:8891'
+const baseUrl = 'https://api.app.gys9.com'
 export function request(config = {}) {
 	let {
 		url,

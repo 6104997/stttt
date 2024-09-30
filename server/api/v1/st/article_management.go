@@ -162,14 +162,14 @@ func (articleManagementApi *ArticleManagementApi) GetArticleManagementList(c *gi
 // @Router /articleManagement/getAListOfArticles [GET]
 func (articleManagementApi *ArticleManagementApi) GetAListOfArticles(c *gin.Context) {
 	// 请添加自己的业务逻辑
-	dictionaryID := c.Query("dictionaryID")
+	articleClassificationId := c.Query("articleClassificationId")
 	var pageInfo stReq.ArticleManagementSearch
 	err := c.ShouldBindQuery(&pageInfo)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	list, total, err := articleManagementService.GetAListOfArticles(pageInfo, dictionaryID)
+	list, total, err := articleManagementService.GetAListOfArticles(pageInfo, articleClassificationId)
 
 	if err != nil {
 		global.GVA_LOG.Error("失败!", zap.Error(err))

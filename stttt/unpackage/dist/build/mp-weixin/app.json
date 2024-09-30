@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/mypage/mypage",
+    "pages/personalCenter/personalCenter",
+    "pages/classification/classification",
+    "pages/detail/detail"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "守塔金房助手",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#9799a5",
+    "selectedColor": "#28b389",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon_label_home_line_theme.png",
+        "selectedIconPath": "static/icon_label_home_plane_theme.png"
+      },
+      {
+        "text": "分类",
+        "pagePath": "pages/classification/classification",
+        "iconPath": "static/icon_label_classification_line_classification.png.png",
+        "selectedIconPath": "static/icon_label_classification_plane_classification.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mypage/mypage",
+        "iconPath": "static/icon_label_mine_line_theme.png",
+        "selectedIconPath": "static/icon_label_mine_plane_theme.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

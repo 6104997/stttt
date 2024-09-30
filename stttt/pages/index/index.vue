@@ -1,6 +1,6 @@
 <template>
 	<view class="homoLayout PageBg">
-		<z-paging ref="paging" v-model="articleList" @query="queryList" :default-page-size="1">
+		<z-paging ref="paging" v-model="articleList" @query="queryList" :default-page-size="5">
 			<custom-bav-bar title="守塔不能停"></custom-bav-bar>
 			<view class="banner">
 				<!--  获取轮播图并渲染    -->
@@ -21,39 +21,13 @@
 				</template>
 			</common-title>
 
-			<view class="common-box-list" v-for="item in 2">
-				<view class="common-box-list-fj">
-					<view class="left">
-						<uni-icons type="calendar" size="20"></uni-icons>
-						<view class="text">房间号:
-							<text>8815156153</text>
 
-						</view>
-					</view>
-					<view class="right">
-						<view class="text">房间密码:8888</view>
-					</view>
-				</view>
-
-
-				<view class="common-box-list-zt">
-					<uni-icons type="loop" size="20"></uni-icons>
-					<view class="text">状态:<text>未开始</text></view>
-				</view>
-				<view class="common-box-list-sj">
-
-					<view class="left">
-						<uni-icons type="eye" size="20"></uni-icons>
-						<view class="text">创建时间:<text>未开始</text></view>
-					</view>
-					<view class="right">
-						<button type="primary" size="mini">复制房间号</button>
-					</view>
-				</view>
-
+			<view v-for="item in roommdata" :key="item.ID">
+				<common-listOfRooms :roomNumber="item.roomNumber" :roomPassword="item.roomPassword"
+					:currentStatus="item.currentStatus"
+					:CreatedAt="convertTimeFormat(item.CreatedAt)"></common-listOfRooms>
 			</view>
-			<!-- <ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
-			binderror="adError" bindclose="adClose"></ad> -->
+
 			<common-title>
 				<template #name>公告</template>
 				<template #custom>
@@ -62,6 +36,22 @@
 					</view>
 				</template>
 			</common-title>
+			<view v-for="item in ListOfAnnouncements" :key="item.uuid">
+				<navigator :url="'/pages/detail/detail?uuid='+item.uuid">
+					<component-articleList :images="item.preview_the_image" :title="item.title" :author="item.author"
+						:CreatedAt="convertTimeFormat(item.created_at)"></component-articleList>
+				</navigator>
+			</view>
+			<view :style="{ height:'20px'}"></view>
+
+			<common-title>
+				<template #name>守塔交易圈</template>
+				<template #custom>
+					<view class="date">
+					</view>
+				</template>
+			</common-title>
+
 			<view v-for="item in articleList" :key="item.uuid">
 				<navigator :url="'/pages/detail/detail?uuid='+item.uuid">
 					<component-articleList :images="item.preview_the_image" :title="item.title" :author="item.author"
@@ -69,7 +59,10 @@
 				</navigator>
 			</view>
 			<view :style="{ height:'20px'}"></view>
+			<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+				binderror="adError" bindclose="adClose"></ad>
 		</z-paging>
+
 	</view>
 
 </template>
@@ -82,13 +75,16 @@
 		getAListOfAnnouncements,
 		GetImage,
 		getAListOfArticles,
-		convertTimeFormat
+		convertTimeFormat,
+		getAListOfRooms
 	} from '@/api/request.js'
 	//通过 http://127.0.0.1:8891/arouselImage/GetImage 获取图片列表
 	const bannerList = ref([])
 	const ListOfAnnouncements = ref([])
-	const articleList = ref({})
+	const articleList = ref([])
 	const paging = ref(null)
+	const roomdata = ref(null)
+	const roommdata = ref([])
 	const getBannerList = async () => {
 		let res = await GetImage()
 		if (res.code === 0) {
@@ -96,18 +92,19 @@
 		}
 	}
 
-const queryList = (pageNo, pageSize) => {
+	const queryList = async (pageNo, pageSize) => {
 		// 此处请求仅为演示，请替换为自己项目中的请求
-        getAListOfArticles(pageNo,pageSize,'1').then(res => {
+		await getAListOfArticles(pageNo, pageSize, '1').then(res => {
 			// 将请求结果通过complete传给z-paging处理，同时也代表请求结束，这一行必须调用
-            paging.value.complete(res.data.list);
-        }).catch(res => {
+			paging.value.complete(res.data.list);
+
+		}).catch(res => {
 			// 如果请求失败写paging.value.complete(false);
 			// 注意，每次都需要在catch中写这句话很麻烦，z-paging提供了方案可以全局统一处理
 			// 在底层的网络请求抛出异常时，写uni.$emit('z-paging-error-emit');即可
 			paging.value.complete(false);
 		})
-    }
+	}
 
 
 
@@ -115,25 +112,36 @@ const queryList = (pageNo, pageSize) => {
 	const GetListOfAnnouncements = async () => {
 		//GetListOfAnnouncements
 		//获取公告内容列表
-		let res = await getAListOfAnnouncements()
+		let res = await getAListOfArticles("1", "5", '0')
 		if (res.code === 0) {
 
-			ListOfAnnouncements.value = res.data
+			ListOfAnnouncements.value = res.data.list
 
 		}
 	}
-	const GetAListOfArticless = async () => {
-		let res = await getAListOfArticles()
-
-		articleList.value = res.data.list
-
-		console.log(articleList.value);
+	const AListOfRooms = async () => {
+		//获取金房数据列表
+		let resa = await getAListOfRooms()
+		roomdata.value = resa.data
+		roommdata.value = resa.data
+		console.log(resa);
+		console.log(roomdata.value);
 	}
 
+	const onShareAppMessage = () => {
+		title: '守塔金房助手-首页'
+		imageUrl: 'https://stamdin.gys9.com/20240403102814.png'
+	}
 
+	setInterval(function() {
 
+		AListOfRooms()
+	}, 5000);
+
+	//获取金房
+	AListOfRooms()
 	//获取文章
-	GetAListOfArticless()
+	//GetAListOfArticless()
 	//获取公告内容列表
 	GetListOfAnnouncements()
 	//获取轮播图

@@ -12,6 +12,13 @@
               <el-option v-for="(item,key) in stateOptions" :key="key" :label="item.label" :value="item.value" />
            </el-select>
        </el-form-item>
+       <el-form-item label="文章状态:" prop="articleClassificationId">
+           <el-select v-model="formData.articleClassificationId" placeholder="请选择文章类型" style="width:100%" :clearable="true" >
+              <el-option v-for="(item,key) in ArticleClassificationIdOptions" :key="key" :label="item.label" :value="item.value" />
+           </el-select>
+       </el-form-item>
+
+
         <el-form-item label="作者:" prop="author">
           <el-input v-model="formData.author" :clearable="true"  placeholder="请输入作者" />
        </el-form-item>
@@ -84,6 +91,7 @@ const formData = ref({
             contact: '',
             price: undefined,
             previewTheImage: "",
+            articleClassificationId:'',
         })
 // 验证规则
 const rule = reactive({
@@ -104,6 +112,7 @@ const init = async () => {
       type.value = 'create'
     }
     stateOptions.value = await getDictFunc('state')
+    ArticleClassificationIdOptions.value = await getDictFunc('ArticleClassification')
 }
 
 init()

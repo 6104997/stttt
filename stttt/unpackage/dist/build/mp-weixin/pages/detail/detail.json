@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "文章",
+  "usingComponents": {
+    "uni-tag": "../../uni_modules/uni-tag/components/uni-tag/uni-tag",
+    "mp-html": "../../uni_modules/mp-html/components/mp-html/mp-html"
+  }
+}

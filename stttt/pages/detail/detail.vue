@@ -21,6 +21,8 @@
 			热度 {{detali.view_count}}	
 		</view>
 	</view>
+	<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+	binderror="adError" bindclose="adClose"></ad>
 </template>
 
 <script setup>
@@ -43,7 +45,10 @@ onLoad((e)=>{
 	getArticleManagementByUUIDs()
 })
 
-
+const onShareAppMessage = () => {
+		title: '守塔金房助手-首页'
+		imageUrl: 'https://stamdin.gys9.com/20240403102814.png'
+	}
 
 
 

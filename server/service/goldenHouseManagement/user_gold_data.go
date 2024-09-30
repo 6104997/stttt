@@ -9,42 +9,42 @@ import (
 type UserGoldDataService struct{}
 
 // CreateUserGoldData 创建用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) CreateUserGoldData(userGoldData *goldenHouseManagement.UserGoldData) (err error) {
 	err = global.GVA_DB.Create(userGoldData).Error
 	return err
 }
 
 // DeleteUserGoldData 删除用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) DeleteUserGoldData(ID string) (err error) {
 	err = global.GVA_DB.Delete(&goldenHouseManagement.UserGoldData{}, "id = ?", ID).Error
 	return err
 }
 
 // DeleteUserGoldDataByIds 批量删除用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) DeleteUserGoldDataByIds(IDs []string) (err error) {
 	err = global.GVA_DB.Delete(&[]goldenHouseManagement.UserGoldData{}, "id in ?", IDs).Error
 	return err
 }
 
 // UpdateUserGoldData 更新用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) UpdateUserGoldData(userGoldData goldenHouseManagement.UserGoldData) (err error) {
 	err = global.GVA_DB.Model(&goldenHouseManagement.UserGoldData{}).Where("id = ?", userGoldData.ID).Updates(&userGoldData).Error
 	return err
 }
 
 // GetUserGoldData 根据ID获取用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) GetUserGoldData(ID string) (userGoldData goldenHouseManagement.UserGoldData, err error) {
 	err = global.GVA_DB.Where("id = ?", ID).First(&userGoldData).Error
 	return
 }
 
 // GetUserGoldDataInfoList 分页获取用户打金数据记录
-// Author [piexlmax](https://github.com/piexlmax)
+// Author [yourname](https://github.com/yourname)
 func (userGoldDataService *UserGoldDataService) GetUserGoldDataInfoList(info goldenHouseManagementReq.UserGoldDataSearch) (list []goldenHouseManagement.UserGoldData, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
@@ -79,12 +79,4 @@ func (userGoldDataService *UserGoldDataService) GetUserGoldDataInfoList(info gol
 func (userGoldDataService *UserGoldDataService) GetUserGoldDataPublic() {
 	// 此方法为获取数据源定义的数据
 	// 请自行实现
-}
-
-// AddTheUserSGoldData 添加打金用户数据
-// Author [yourname](https://github.com/yourname)
-func (userGoldDataService *UserGoldDataService) AddTheUserSGoldData() (err error) {
-	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&goldenHouseManagement.UserGoldData{})
-	return db.Error
 }

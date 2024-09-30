@@ -108,16 +108,3 @@ export const getUserGoldDataPublic = () => {
     method: 'get',
   })
 }
-// AddTheUserSGoldData 添加打金用户数据
-// @Tags UserGoldData
-// @Summary 添加打金用户数据
-// @accept application/json
-// @Produce application/json
-// @Success 200 {object} response.Response{data=object,msg=string} "成功"
-// @Router /userGoldData/addTheUserSGoldData [GET]
-export const addTheUserSGoldData = () => {
-  return service({
-    url: '/userGoldData/addTheUserSGoldData',
-    method: 'GET'
-  })
-}

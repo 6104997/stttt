@@ -1,4 +1,5 @@
 <template>
+	<!-- 文章展示插件 -->
 	<view class="image-card">
 		<view class="image-section">
 			<image class="image" :src="images" mode="aspectFill"></image>

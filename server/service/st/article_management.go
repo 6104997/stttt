@@ -61,6 +61,12 @@ func (articleManagementService *ArticleManagementService) GetArticleManagementIn
 	if info.Article_status != "" {
 		db = db.Where("article_status = ?", info.Article_status)
 	}
+	if info.AccountType != "" {
+		db = db.Where("account_type = ?", info.AccountType)
+	}
+	if info.ArticleClassificationId != "" {
+		db = db.Where("article_classification_id = ?", info.ArticleClassificationId)
+	}
 	if info.Author != "" {
 		db = db.Where("author LIKE ?", "%"+info.Author+"%")
 	}
@@ -96,7 +102,7 @@ func (articleManagementService *ArticleManagementService) GetArticleManagementIn
 
 // GetAListOfArticles 获取文章列表
 // Author [yourname](https://github.com/yourname)
-func (articleManagementService *ArticleManagementService) GetAListOfArticles(info stReq.ArticleManagementSearch, dictionaryID string) (list []st.ArticleResponse, total int64, err error) {
+func (articleManagementService *ArticleManagementService) GetAListOfArticles(info stReq.ArticleManagementSearch, articleClassificationId string) (list []st.ArticleResponse, total int64, err error) {
 	// 请在这里实现自己的业务逻辑
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
@@ -106,17 +112,26 @@ func (articleManagementService *ArticleManagementService) GetAListOfArticles(inf
 	// 如果有条件搜索 下方会自动创建搜索语句
 	if info.StartCreatedAt != nil && info.EndCreatedAt != nil {
 		db = db.Where("created_at BETWEEN ? AND ?", info.StartCreatedAt, info.EndCreatedAt)
+	}
+	if info.TheLatestArticles != "" {
+		db = db.Order("created_at DESC")
+	}
+	if info.AccountType != "" {
+		db = db.Where("account_type = ?", info.AccountType)
 
 	}
-	db = db.Where("article_status = ?", dictionaryID)
+
+	db = db.Debug().Where("article_status = ? AND article_classification_id = ?", "1", articleClassificationId)
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-
+	//navigationName
 	if limit != 0 {
 		db = db.Limit(limit).Offset(offset)
 	}
+	//TheLatestArticles
+	//accountType
 
 	err = db.Select("created_at, uuid, title, preview_the_image, author").Find(&list).Error
 	return list, total, err

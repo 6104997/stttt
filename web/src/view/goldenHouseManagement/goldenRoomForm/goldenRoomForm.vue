@@ -61,7 +61,6 @@
           <el-table-column align="left" label="房间号" prop="roomNumber" width="120" />
           <el-table-column align="left" label="房间密码" prop="roomPassword" width="120" />
           <el-table-column align="left" label="当前状态" prop="currentStatus" width="120" />
-          <el-table-column align="left" label="创建时间" prop="creationTime" width="120" />
         <el-table-column align="left" label="操作" fixed="right" min-width="240">
             <template #default="scope">
             <el-button  type="primary" link class="table-button" @click="getDetails(scope.row)"><el-icon style="margin-right: 5px"><InfoFilled /></el-icon>查看详情</el-button>
@@ -103,9 +102,6 @@
             <el-form-item label="当前状态:"  prop="currentStatus" >
               <el-input v-model="formData.currentStatus" :clearable="true"  placeholder="请输入当前状态" />
             </el-form-item>
-            <el-form-item label="创建时间:"  prop="creationTime" >
-              <el-input v-model="formData.creationTime" :clearable="true"  placeholder="请输入创建时间" />
-            </el-form-item>
           </el-form>
     </el-drawer>
 
@@ -119,9 +115,6 @@
                     </el-descriptions-item>
                     <el-descriptions-item label="当前状态">
                         {{ detailFrom.currentStatus }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="创建时间">
-                        {{ detailFrom.creationTime }}
                     </el-descriptions-item>
             </el-descriptions>
         </el-drawer>
@@ -159,7 +152,6 @@ const formData = ref({
             roomNumber: '',
             roomPassword: '',
             currentStatus: '',
-            creationTime: '',
         })
 
 
@@ -341,7 +333,6 @@ const closeDialog = () => {
         roomNumber: '',
         roomPassword: '',
         currentStatus: '',
-        creationTime: '',
         }
 }
 // 弹窗确定

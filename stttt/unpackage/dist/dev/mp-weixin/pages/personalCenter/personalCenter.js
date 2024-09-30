@@ -24,12 +24,13 @@ const _sfc_main = {
         const data = JSON.parse(res.data);
         console.log(data);
         if (data.code == 0) {
-          const urls = "http://localhost:8080/api/" + data.data.file.url;
+          const urls = data.data.file.url;
           console.log(urls);
           console.log(await api_request.GetUpdateTheImage(urls));
         }
       }
       console.log(await api_request.GetUpnikname(Userinfos.value.nickname));
+      common_vendor.index.navigateBack({});
     }
     common_vendor.onMounted(async () => {
       if (common_vendor.cookies.get("x-token")) {

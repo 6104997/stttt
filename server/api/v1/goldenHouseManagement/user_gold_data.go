@@ -166,22 +166,3 @@ func (userGoldDataApi *UserGoldDataApi) GetUserGoldDataPublic(c *gin.Context) {
 		"info": "不需要鉴权的用户打金数据接口信息",
 	}, "获取成功", c)
 }
-
-// AddTheUserSGoldData 添加打金用户数据
-// @Tags UserGoldData
-// @Summary 添加打金用户数据
-// @accept application/json
-// @Produce application/json
-// @Param data query goldenHouseManagementReq.UserGoldDataSearch true "成功"
-// @Success 200 {object} response.Response{data=object,msg=string} "成功"
-// @Router /userGoldData/addTheUserSGoldData [GET]
-func (userGoldDataApi *UserGoldDataApi) AddTheUserSGoldData(c *gin.Context) {
-	// 请添加自己的业务逻辑
-	err := userGoldDataService.AddTheUserSGoldData()
-	if err != nil {
-		global.GVA_LOG.Error("失败!", zap.Error(err))
-		response.FailWithMessage("失败", c)
-		return
-	}
-	response.OkWithData("返回数据", c)
-}

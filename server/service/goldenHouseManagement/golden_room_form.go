@@ -8,43 +8,43 @@ import (
 
 type GoldenRoomFormService struct{}
 
-// CreateGoldenRoomForm 创建金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// CreateGoldenRoomForm 创建金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) CreateGoldenRoomForm(goldenRoomForm *goldenHouseManagement.GoldenRoomForm) (err error) {
 	err = global.GVA_DB.Create(goldenRoomForm).Error
 	return err
 }
 
-// DeleteGoldenRoomForm 删除金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// DeleteGoldenRoomForm 删除金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) DeleteGoldenRoomForm(ID string) (err error) {
 	err = global.GVA_DB.Delete(&goldenHouseManagement.GoldenRoomForm{}, "id = ?", ID).Error
 	return err
 }
 
-// DeleteGoldenRoomFormByIds 批量删除金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// DeleteGoldenRoomFormByIds 批量删除金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) DeleteGoldenRoomFormByIds(IDs []string) (err error) {
 	err = global.GVA_DB.Delete(&[]goldenHouseManagement.GoldenRoomForm{}, "id in ?", IDs).Error
 	return err
 }
 
-// UpdateGoldenRoomForm 更新金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// UpdateGoldenRoomForm 更新金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) UpdateGoldenRoomForm(goldenRoomForm goldenHouseManagement.GoldenRoomForm) (err error) {
 	err = global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{}).Where("id = ?", goldenRoomForm.ID).Updates(&goldenRoomForm).Error
 	return err
 }
 
-// GetGoldenRoomForm 根据ID获取金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// GetGoldenRoomForm 根据ID获取金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) GetGoldenRoomForm(ID string) (goldenRoomForm goldenHouseManagement.GoldenRoomForm, err error) {
 	err = global.GVA_DB.Where("id = ?", ID).First(&goldenRoomForm).Error
 	return
 }
 
-// GetGoldenRoomFormInfoList 分页获取金房表单记录
-// Author [piexlmax](https://github.com/piexlmax)
+// GetGoldenRoomFormInfoList 分页获取金房管理记录
+// Author [yourname](https://github.com/yourname)
 func (goldenRoomFormService *GoldenRoomFormService) GetGoldenRoomFormInfoList(info goldenHouseManagementReq.GoldenRoomFormSearch) (list []goldenHouseManagement.GoldenRoomForm, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
@@ -73,39 +73,39 @@ func (goldenRoomFormService *GoldenRoomFormService) GetGoldenRoomFormInfoList(in
 	err = db.Find(&goldenRoomForms).Error
 	return goldenRoomForms, total, err
 }
-func (goldenRoomFormService *GoldenRoomFormService) GetGoldenRoomFormPublic() {
-	// 此方法为获取数据源定义的数据
-	// 请自行实现
-}
 
 // GetAListOfGoldenHouses 获取金房列表
 // Author [yourname](https://github.com/yourname)
-func (goldenRoomFormService *GoldenRoomFormService) GetAListOfGoldenHouses() (err error) {
+func (goldenRoomFormService *GoldenRoomFormService) GetAListOfGoldenHouses() (roomdata []goldenHouseManagement.GoldenRoomForm, err error) {
 	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{})
-	return db.Error
+	err = global.GVA_DB.Order("created_at DESC").Find(&roomdata).Error
+	return
 }
 
-// AddTheGoldenRoomData 添加金房数据
+// classification
+// AddTheGoldenRoomData 添加房间数据
 // Author [yourname](https://github.com/yourname)
-func (goldenRoomFormService *GoldenRoomFormService) AddTheGoldenRoomData() (err error) {
+func (goldenRoomFormService *GoldenRoomFormService) AddTheGoldenRoomData(goldenRoomForm goldenHouseManagementReq.GoldenRoomFormSearch) (roomdata goldenHouseManagement.GoldenRoomForm, err error) {
 	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{})
-	return db.Error
+	roomdata.RoomNumber = goldenRoomForm.RoomNumber
+	roomdata.RoomPassword = goldenRoomForm.RoomPassword
+	roomdata.CurrentStatus = goldenRoomForm.CurrentStatus
+	err = global.GVA_DB.Create(&roomdata).Error
+	return
 }
 
 // DeleteTheGoldenRoomData 删除金房数据
 // Author [yourname](https://github.com/yourname)
-func (goldenRoomFormService *GoldenRoomFormService) DeleteTheGoldenRoomData() (err error) {
+func (goldenRoomFormService *GoldenRoomFormService) DeleteTheGoldenRoomData(ID string) (err error) {
 	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{})
-	return db.Error
+	err = global.GVA_DB.Delete(&goldenHouseManagement.GoldenRoomForm{}, "id = ?", ID).Error
+	return err
 }
 
 // UpdateTheGoldenRoomData 更新金房数据
 // Author [yourname](https://github.com/yourname)
-func (goldenRoomFormService *GoldenRoomFormService) UpdateTheGoldenRoomData() (err error) {
+func (goldenRoomFormService *GoldenRoomFormService) UpdateTheGoldenRoomData(goldenRoomForm goldenHouseManagementReq.GoldenRoomFormSearch) (err error) {
 	// 请在这里实现自己的业务逻辑
-	db := global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{})
-	return db.Error
+	err = global.GVA_DB.Model(&goldenHouseManagement.GoldenRoomForm{}).Where("id = ?", goldenRoomForm.Id).Updates(&goldenRoomForm).Error
+	return err
 }

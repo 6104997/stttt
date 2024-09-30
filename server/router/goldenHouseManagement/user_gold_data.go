@@ -7,22 +7,22 @@ import (
 
 type UserGoldDataRouter struct{}
 
+// InitUserGoldDataRouter 初始化 用户打金数据 路由信息
 func (s *UserGoldDataRouter) InitUserGoldDataRouter(Router *gin.RouterGroup, PublicRouter *gin.RouterGroup) {
 	userGoldDataRouter := Router.Group("userGoldData").Use(middleware.OperationRecord())
 	userGoldDataRouterWithoutRecord := Router.Group("userGoldData")
 	userGoldDataRouterWithoutAuth := PublicRouter.Group("userGoldData")
 	{
-		userGoldDataRouter.POST("createUserGoldData", userGoldDataApi.CreateUserGoldData)
-		userGoldDataRouter.DELETE("deleteUserGoldData", userGoldDataApi.DeleteUserGoldData)
-		userGoldDataRouter.DELETE("deleteUserGoldDataByIds", userGoldDataApi.DeleteUserGoldDataByIds)
-		userGoldDataRouter.PUT("updateUserGoldData", userGoldDataApi.UpdateUserGoldData)
+		userGoldDataRouter.POST("createUserGoldData", userGoldDataApi.CreateUserGoldData)             // 新建用户打金数据
+		userGoldDataRouter.DELETE("deleteUserGoldData", userGoldDataApi.DeleteUserGoldData)           // 删除用户打金数据
+		userGoldDataRouter.DELETE("deleteUserGoldDataByIds", userGoldDataApi.DeleteUserGoldDataByIds) // 批量删除用户打金数据
+		userGoldDataRouter.PUT("updateUserGoldData", userGoldDataApi.UpdateUserGoldData)              // 更新用户打金数据
 	}
 	{
-		userGoldDataRouterWithoutRecord.GET("findUserGoldData", userGoldDataApi.FindUserGoldData)
-		userGoldDataRouterWithoutRecord.GET("getUserGoldDataList", userGoldDataApi.GetUserGoldDataList)
+		userGoldDataRouterWithoutRecord.GET("findUserGoldData", userGoldDataApi.FindUserGoldData)       // 根据ID获取用户打金数据
+		userGoldDataRouterWithoutRecord.GET("getUserGoldDataList", userGoldDataApi.GetUserGoldDataList) // 获取用户打金数据列表
 	}
 	{
-		userGoldDataRouterWithoutAuth.GET("getUserGoldDataPublic", userGoldDataApi.GetUserGoldDataPublic)
-		userGoldDataRouterWithoutAuth.GET("addTheUserSGoldData", userGoldDataApi.AddTheUserSGoldData)
+		userGoldDataRouterWithoutAuth.GET("getUserGoldDataPublic", userGoldDataApi.GetUserGoldDataPublic) // 用户打金数据开放接口
 	}
 }

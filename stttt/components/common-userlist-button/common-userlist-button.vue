@@ -1,4 +1,5 @@
 <template>
+	<!-- 个人中心按钮插件，带按钮 -->
 	<view class="common-userlist">
 		<view class="section">
 			<view class="list">

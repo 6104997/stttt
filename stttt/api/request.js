@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:8891'
+const baseUrl = 'https://api.app.gys9.com/'
 import {
 	request
 } from '@/utils/request.js'
@@ -62,17 +62,41 @@ export const getArticleManagementByUUID = (uuid) => {
 	})
 }
 //获取文章列表
-export const getAListOfArticles = (page, pageSize, dictionaryID) => {
+export const getAListOfArticles = (page, pageSize, articleClassificationId) => {
 	return request({
 		url: '/articleManagement/getAListOfArticles?page=' + page + '&pageSize=' + pageSize +
-			'&dictionaryID=' + dictionaryID,
+			'&articleClassificationId=' + articleClassificationId,
+		method: "GET"
+	})
+}
+
+//获取房间列表
+export const getAListOfRooms = () => {
+	return request({
+		url: '/goldenRoomForm/getAListOfGoldenHouses',
 		method: "GET"
 	})
 }
 
 
-//转换时间格式
+//获取导航列表数据
+export const getNavigationist = () => {
+	return request({
+		url: '/categoricalNavigationManagement/getAListOfNavigationCategories',
+		method: "GET"
+	})
+}
 
+//自定义获取文章
+
+export const getcustomGetArticles = (url, page, pageSize) => {
+	return request({
+		url: '/' + url + '&page=' + page + '&pageSize=' + pageSize,
+		method: "GET"
+	})
+}
+
+//转换时间格式
 export const convertTimeFormat = (tim) => {
 	let date = new Date(tim)
 	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
@@ -82,7 +106,7 @@ export const convertTimeFormat = (tim) => {
 export function uploadFile(filePath, uuid) {
 	return new Promise((resolve, reject) => {
 		wx.uploadFile({
-			url: 'http://localhost:8891/fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
+			url: 'https://api.app.gys9.com//fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
 			filePath: filePath,
 			name: 'file',
 			formData: {

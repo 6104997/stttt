@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我的",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "common-userlist": "../../components/common-userlist/common-userlist",
+    "common-userlist-button": "../../components/common-userlist-button/common-userlist-button"
+  }
+}

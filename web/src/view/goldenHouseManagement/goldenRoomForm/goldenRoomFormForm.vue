@@ -12,9 +12,6 @@
         <el-form-item label="当前状态:" prop="currentStatus">
           <el-input v-model="formData.currentStatus" :clearable="true"  placeholder="请输入当前状态" />
        </el-form-item>
-        <el-form-item label="创建时间:" prop="creationTime">
-          <el-input v-model="formData.creationTime" :clearable="true"  placeholder="请输入创建时间" />
-       </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="save">保存</el-button>
           <el-button type="primary" @click="back">返回</el-button>
@@ -50,7 +47,6 @@ const formData = ref({
             roomNumber: '',
             roomPassword: '',
             currentStatus: '',
-            creationTime: '',
         })
 // 验证规则
 const rule = reactive({

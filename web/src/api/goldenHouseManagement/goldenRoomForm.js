@@ -1,10 +1,10 @@
 import service from '@/utils/request'
 // @Tags GoldenRoomForm
-// @Summary 创建金房表单
+// @Summary 创建金房管理
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.GoldenRoomForm true "创建金房表单"
+// @Param data body model.GoldenRoomForm true "创建金房管理"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"创建成功"}"
 // @Router /goldenRoomForm/createGoldenRoomForm [post]
 export const createGoldenRoomForm = (data) => {
@@ -16,11 +16,11 @@ export const createGoldenRoomForm = (data) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 删除金房表单
+// @Summary 删除金房管理
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.GoldenRoomForm true "删除金房表单"
+// @Param data body model.GoldenRoomForm true "删除金房管理"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goldenRoomForm/deleteGoldenRoomForm [delete]
 export const deleteGoldenRoomForm = (params) => {
@@ -32,11 +32,11 @@ export const deleteGoldenRoomForm = (params) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 批量删除金房表单
+// @Summary 批量删除金房管理
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "批量删除金房表单"
+// @Param data body request.IdsReq true "批量删除金房管理"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goldenRoomForm/deleteGoldenRoomForm [delete]
 export const deleteGoldenRoomFormByIds = (params) => {
@@ -48,11 +48,11 @@ export const deleteGoldenRoomFormByIds = (params) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 更新金房表单
+// @Summary 更新金房管理
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.GoldenRoomForm true "更新金房表单"
+// @Param data body model.GoldenRoomForm true "更新金房管理"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /goldenRoomForm/updateGoldenRoomForm [put]
 export const updateGoldenRoomForm = (data) => {
@@ -64,11 +64,11 @@ export const updateGoldenRoomForm = (data) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 用id查询金房表单
+// @Summary 用id查询金房管理
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query model.GoldenRoomForm true "用id查询金房表单"
+// @Param data query model.GoldenRoomForm true "用id查询金房管理"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /goldenRoomForm/findGoldenRoomForm [get]
 export const findGoldenRoomForm = (params) => {
@@ -80,11 +80,11 @@ export const findGoldenRoomForm = (params) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 分页获取金房表单列表
+// @Summary 分页获取金房管理列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query request.PageInfo true "分页获取金房表单列表"
+// @Param data query request.PageInfo true "分页获取金房管理列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /goldenRoomForm/getGoldenRoomFormList [get]
 export const getGoldenRoomFormList = (params) => {
@@ -96,10 +96,10 @@ export const getGoldenRoomFormList = (params) => {
 }
 
 // @Tags GoldenRoomForm
-// @Summary 不需要鉴权的金房表单接口
+// @Summary 不需要鉴权的金房管理接口
 // @accept application/json
 // @Produce application/json
-// @Param data query goldenHouseManagementReq.GoldenRoomFormSearch true "分页获取金房表单列表"
+// @Param data query goldenHouseManagementReq.GoldenRoomFormSearch true "分页获取金房管理列表"
 // @Success 200 {object} response.Response{data=object,msg=string} "获取成功"
 // @Router /goldenRoomForm/getGoldenRoomFormPublic [get]
 export const getGoldenRoomFormPublic = () => {
@@ -121,9 +121,9 @@ export const getAListOfGoldenHouses = () => {
     method: 'GET'
   })
 }
-// AddTheGoldenRoomData 添加金房数据
+// AddTheGoldenRoomData 添加房间数据
 // @Tags GoldenRoomForm
-// @Summary 添加金房数据
+// @Summary 添加房间数据
 // @accept application/json
 // @Produce application/json
 // @Success 200 {object} response.Response{data=object,msg=string} "成功"
@@ -157,6 +157,19 @@ export const deleteTheGoldenRoomData = () => {
 export const updateTheGoldenRoomData = () => {
   return service({
     url: '/goldenRoomForm/updateTheGoldenRoomData',
+    method: 'GET'
+  })
+}
+// AddTheUserSGoldData 添加用户金币数据
+// @Tags GoldenRoomForm
+// @Summary 添加用户金币数据
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /goldenRoomForm/addTheUserSGoldData [GET]
+export const addTheUserSGoldData = () => {
+  return service({
+    url: '/goldenRoomForm/addTheUserSGoldData',
     method: 'GET'
   })
 }

@@ -1,7 +1,7 @@
 <template>
 	<view class="classuser PageBg">
-    <view :style="{height:getNavBarheight()+'px'}"></view>
-		
+		<view :style="{height:getNavBarheight()+'px'}"></view>
+
 		<view class="userLayout" v-if="User">
 			<view class="avatar">
 				<image :src='User.headPortrait' mode="aspectFill" @click="clickJump"></image>
@@ -17,19 +17,19 @@
 
 		<navigator url="/pages/personalCenter/personalCenter">
 
-		<common-userlist>
-			<template #listicons>
-				<view class="deta">
-					<uni-icons type="contact-filled" size="30" color="#23b389"></uni-icons>
-				</view>
-			</template>
-			<template #listname>
-				个人中心
-			</template>
-			<template #listrighticons>
-				<uni-icons type="right" size="15" color="#aaa"></uni-icons>
-			</template>
-		</common-userlist>
+			<common-userlist>
+				<template #listicons>
+					<view class="deta">
+						<uni-icons type="contact-filled" size="30" color="#23b389"></uni-icons>
+					</view>
+				</template>
+				<template #listname>
+					个人中心
+				</template>
+				<template #listrighticons>
+					<uni-icons type="right" size="15" color="#aaa"></uni-icons>
+				</template>
+			</common-userlist>
 		</navigator>
 		<common-userlist-button>
 			<template #listicons>
@@ -44,17 +44,22 @@
 				<uni-icons type="right" size="15" color="#aaa"></uni-icons>
 			</template>
 		</common-userlist-button>
+		<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+			binderror="adError" bindclose="adClose"></ad>
 	</view>
 </template>
 
 
 <script setup>
 	import cookies from 'weapp-cookie'
-	import {getNavBarheight} from '@/utils/system.js'
+	import {
+		getNavBarheight
+	} from '@/utils/system.js'
 	import {
 		onMounted,
 		ref
 	} from 'vue';
+	import { onShow } from '@dcloudio/uni-app';
 	import {
 
 		GetLogin,
@@ -62,19 +67,19 @@
 	} from '@/api/request.js'
 
 	const User = ref()
-	const Login = async() => {
+	const Login = async () => {
 
-		if (cookies.get("x-token"))  {
+		if (cookies.get("x-token")) {
 			let resa = await GetUserinfo()
 			User.value = resa.data
 
-		}else{
+		} else {
 			wx.login({
 				success: async (res) => {
-          if (res.code != null) {
-            let resa = await GetLogin(res.code)
-            User.value = resa.data.user
-          }
+					if (res.code != null) {
+						let resa = await GetLogin(res.code)
+						User.value = resa.data.user
+					}
 
 				}
 
@@ -83,14 +88,22 @@
 	}
 
 
-  const clickJump = () => {
-    uni.navigateTo({
-      url: '/pages/personalCenter/personalCenter'
-    });
+	const clickJump = () => {
+		uni.navigateTo({
+			url: '/pages/personalCenter/personalCenter'
+		});
 
-  }
+	}
 
 	Login()
+	onShow(async () => {
+		if (cookies.get("x-token")) {
+			let resa = await GetUserinfo()
+			User.value = resa.data
+			console.log(resa.data);
+		}
+	})
+
 
 	onMounted(async () => {
 		if (cookies.get("x-token")) {
@@ -99,6 +112,10 @@
 		}
 
 	})
+	const onShareAppMessage = () => {
+			title: '守塔金房助手-首页'
+			imageUrl: 'https://stamdin.gys9.com/20240403102814.png'
+		}
 </script>
 
 <style lang="scss" scoped>

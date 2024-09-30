@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "首页",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-bav-bar": "../../components/custom-bav-bar/custom-bav-bar",
+    "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "common-title": "../../components/common-title/common-title",
+    "common-list-of-rooms": "../../components/common-listOfRooms/common-listOfRooms",
+    "component-article-list": "../../components/component-articleList/component-articleList",
+    "z-paging": "../../uni_modules/z-paging/components/z-paging/z-paging"
+  }
+}

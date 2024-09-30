@@ -25,12 +25,6 @@ const GetUpnikname = (nickname) => {
     method: "GET"
   });
 };
-const getAListOfAnnouncements = () => {
-  return utils_request.request({
-    url: "/announcementManagement/getAListOfAnnouncements",
-    method: "GET"
-  });
-};
 const GetImage = () => {
   return utils_request.request({
     url: "/arouselImage/GetImage",
@@ -43,9 +37,27 @@ const getArticleManagementByUUID = (uuid) => {
     method: "GET"
   });
 };
-const getAListOfArticles = (page, pageSize, dictionaryID) => {
+const getAListOfArticles = (page, pageSize, articleClassificationId) => {
   return utils_request.request({
-    url: "/articleManagement/getAListOfArticles?page=" + page + "&pageSize=" + pageSize + "&dictionaryID=" + dictionaryID,
+    url: "/articleManagement/getAListOfArticles?page=" + page + "&pageSize=" + pageSize + "&articleClassificationId=" + articleClassificationId,
+    method: "GET"
+  });
+};
+const getAListOfRooms = () => {
+  return utils_request.request({
+    url: "/goldenRoomForm/getAListOfGoldenHouses",
+    method: "GET"
+  });
+};
+const getNavigationist = () => {
+  return utils_request.request({
+    url: "/categoricalNavigationManagement/getAListOfNavigationCategories",
+    method: "GET"
+  });
+};
+const getcustomGetArticles = (url, page, pageSize) => {
+  return utils_request.request({
+    url: "/" + url + "&page=" + page + "&pageSize=" + pageSize,
     method: "GET"
   });
 };
@@ -56,7 +68,7 @@ const convertTimeFormat = (tim) => {
 function uploadFile(filePath, uuid) {
   return new Promise((resolve, reject) => {
     common_vendor.wx$1.uploadFile({
-      url: "http://localhost:8891/fileUploadAndDownload/upload",
+      url: "https://api.app.gys9.com//fileUploadAndDownload/upload",
       // 仅为示例，非真实的接口地址
       filePath,
       name: "file",
@@ -79,7 +91,9 @@ exports.GetUpdateTheImage = GetUpdateTheImage;
 exports.GetUpnikname = GetUpnikname;
 exports.GetUserinfo = GetUserinfo;
 exports.convertTimeFormat = convertTimeFormat;
-exports.getAListOfAnnouncements = getAListOfAnnouncements;
 exports.getAListOfArticles = getAListOfArticles;
+exports.getAListOfRooms = getAListOfRooms;
 exports.getArticleManagementByUUID = getArticleManagementByUUID;
+exports.getNavigationist = getNavigationist;
+exports.getcustomGetArticles = getcustomGetArticles;
 exports.uploadFile = uploadFile;

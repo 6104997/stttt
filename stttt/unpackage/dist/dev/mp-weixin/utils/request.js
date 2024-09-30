@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const baseUrl = "http://127.0.0.1:8891";
+const baseUrl = "https://api.app.gys9.com";
 function request(config = {}) {
   let {
     url,

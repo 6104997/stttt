@@ -39,6 +39,13 @@ const _sfc_main = {
       });
     };
     Login();
+    common_vendor.onShow(async () => {
+      if (common_vendor.cookies.get("x-token")) {
+        let resa = await api_request.GetUserinfo();
+        User.value = resa.data;
+        console.log(resa.data);
+      }
+    });
     common_vendor.onMounted(async () => {
       if (common_vendor.cookies.get("x-token")) {
         let resa = await api_request.GetUserinfo();

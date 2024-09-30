@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "分类",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-bav-bar": "../../components/custom-bav-bar/custom-bav-bar",
+    "common-title": "../../components/common-title/common-title",
+    "component-article-list": "../../components/component-articleList/component-articleList",
+    "z-paging": "../../uni_modules/z-paging/components/z-paging/z-paging"
+  }
+}

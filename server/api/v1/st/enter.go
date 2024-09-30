@@ -7,11 +7,13 @@ type ApiGroup struct {
 	ArouselImageApi
 	AnnouncementManagementApi
 	ArticleManagementApi
+	CategoricalNavigationManagementApi
 }
 
 var (
-	appUserService                = service.ServiceGroupApp.StServiceGroup.AppUserService
-	arouselImageService           = service.ServiceGroupApp.StServiceGroup.ArouselImageService
-	announcementManagementService = service.ServiceGroupApp.StServiceGroup.AnnouncementManagementService
-	articleManagementService      = service.ServiceGroupApp.StServiceGroup.ArticleManagementService
+	appUserService                         = service.ServiceGroupApp.StServiceGroup.AppUserService
+	arouselImageService                    = service.ServiceGroupApp.StServiceGroup.ArouselImageService
+	announcementManagementService          = service.ServiceGroupApp.StServiceGroup.AnnouncementManagementService
+	articleManagementService               = service.ServiceGroupApp.StServiceGroup.ArticleManagementService
+	categoricalNavigationManagementService = service.ServiceGroupApp.StServiceGroup.CategoricalNavigationManagementService
 )

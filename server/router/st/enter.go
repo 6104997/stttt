@@ -7,11 +7,13 @@ type RouterGroup struct {
 	ArouselImageRouter
 	AnnouncementManagementRouter
 	ArticleManagementRouter
+	CategoricalNavigationManagementRouter
 }
 
 var (
-	appUserApi                = api.ApiGroupApp.StApiGroup.AppUserApi
-	arouselImageApi           = api.ApiGroupApp.StApiGroup.ArouselImageApi
-	announcementManagementApi = api.ApiGroupApp.StApiGroup.AnnouncementManagementApi
-	articleManagementApi      = api.ApiGroupApp.StApiGroup.ArticleManagementApi
+	appUserApi                         = api.ApiGroupApp.StApiGroup.AppUserApi
+	arouselImageApi                    = api.ApiGroupApp.StApiGroup.ArouselImageApi
+	announcementManagementApi          = api.ApiGroupApp.StApiGroup.AnnouncementManagementApi
+	articleManagementApi               = api.ApiGroupApp.StApiGroup.ArticleManagementApi
+	categoricalNavigationManagementApi = api.ApiGroupApp.StApiGroup.CategoricalNavigationManagementApi
 )

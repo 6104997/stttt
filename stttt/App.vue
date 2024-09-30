@@ -1,14 +1,22 @@
 <script>
+	import {
+		GetLogin
+	} from '@/api/request.js'
+
 	export default {
 		onLaunch: function() {
-			// wx.login({
-			// 	success: async (res) => {
-			// 		//const UserData = await RequestApi("/user_api_openpid?openpid=" + res.code)
-			// 		console.log(res.code)
-			// 	}
-			
-			// })
-			console.log('App Launch')
+			const Openpid = wx.getStorageSync('Openpid')
+			//console.log('App onLaunch',Openpid)
+			if (Openpid === "") {
+				wx.login({
+					success: async (res) => {
+						await GetLogin(res.code)
+					}
+
+				})
+
+			}
+
 		},
 		onShow: function() {
 			console.log('App Show')

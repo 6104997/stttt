@@ -27,12 +27,12 @@
 
 				</view>
 			</view>
-			
+
 			<view class="info-item">
 				<text>温馨提示</text>
 				<view class="phone">
 					<text class="info-value">更换头像点击头像即可，更换昵称点击昵称即可</text>
-			
+
 				</view>
 			</view>
 
@@ -40,7 +40,9 @@
 		</view>
 
 		<button class="save" type="primary" @click="Update">保存</button>
-		<button class="logout">退出登录</button>
+		<!-- <button class="logout">退出登录</button> -->
+		<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+			binderror="adError" bindclose="adClose"></ad>
 	</view>
 </template>
 <script setup>
@@ -76,21 +78,23 @@
 	}
 
 	async function Update() {
-		if (temporaryAddress){
+		if (temporaryAddress) {
 			const res = await uploadFile(temporaryAddress, Userinfos.value.uuid);
 			const data = JSON.parse(res.data);
 			console.log(data);
-			
+
 			if (data.code == 0) {
-				const urls = 'http://localhost:8080/api/' + data.data.file.url;
+				const urls = data.data.file.url;
 				console.log(urls);
 				console.log(await GetUpdateTheImage(urls))
-				
+
+
+
 			}
-			
+
 		}
 		console.log(await GetUpnikname(Userinfos.value.nickname));
-		
+		uni.navigateBack({})
 
 	}
 
@@ -118,7 +122,10 @@
 
 			})
 		}
-
+		const onShareAppMessage = () => {
+			title: '守塔金房助手-首页'
+			imageUrl: 'https://stamdin.gys9.com/20240403102814.png'
+		}
 	})
 </script>
 <style lang="scss" scoped>
