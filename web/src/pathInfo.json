@@ -35,6 +35,8 @@
   "/src/view/st/articleManagement/articleManagementForm.vue": "ArticleManagementForm",
   "/src/view/st/categoricalNavigationManagement/categoricalNavigationManagement.vue": "CategoricalNavigationManagement",
   "/src/view/st/categoricalNavigationManagement/categoricalNavigationManagementForm.vue": "CategoricalNavigationManagementForm",
+  "/src/view/st/interfaceToAccessTheData/interfaceToAccessTheData.vue": "InterfaceToAccessTheData",
+  "/src/view/st/interfaceToAccessTheData/interfaceToAccessTheDataForm.vue": "InterfaceToAccessTheDataForm",
   "/src/view/superAdmin/api/api.vue": "Api",
   "/src/view/superAdmin/authority/authority.vue": "Authority",
   "/src/view/superAdmin/authority/components/apis.vue": "Apis",

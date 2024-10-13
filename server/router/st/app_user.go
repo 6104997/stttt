@@ -19,6 +19,8 @@ func (s *AppUserRouter) InitAppUserRouter(Router *gin.RouterGroup, PublicRouter 
 		appUserRouter.GET("getUserinfo", appUserApi.GetUserinfo)
 		appUserRouter.GET("updateTheImage", appUserApi.UpdateTheImage)
 		appUserRouter.GET("upnickname", appUserApi.Upnickname)
+		appUserRouter.GET("getTheNumberOfRegisteredUsersTodays", appUserApi.GetTheNumberOfRegisteredUsersTodays)
+		appUserRouter.GET("totalNumberOfRegisteredUsers", appUserApi.TotalNumberOfRegisteredUsers)
 
 	}
 	{
@@ -26,7 +28,7 @@ func (s *AppUserRouter) InitAppUserRouter(Router *gin.RouterGroup, PublicRouter 
 		appUserRouterWithoutRecord.GET("getAppUserList", appUserApi.GetAppUserList)
 	}
 	{
-		appUserRouterWithoutAuth.GET("getAppUserPublic", appUserApi.GetAppUserPublic)
+
 		appUserRouterWithoutAuth.GET("Login", appUserApi.Login)
 
 	}

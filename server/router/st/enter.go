@@ -8,6 +8,7 @@ type RouterGroup struct {
 	AnnouncementManagementRouter
 	ArticleManagementRouter
 	CategoricalNavigationManagementRouter
+	InterfaceToAccessTheDataRouter
 }
 
 var (
@@ -16,4 +17,5 @@ var (
 	announcementManagementApi          = api.ApiGroupApp.StApiGroup.AnnouncementManagementApi
 	articleManagementApi               = api.ApiGroupApp.StApiGroup.ArticleManagementApi
 	categoricalNavigationManagementApi = api.ApiGroupApp.StApiGroup.CategoricalNavigationManagementApi
+	interfaceToAccessTheDataApi        = api.ApiGroupApp.StApiGroup.InterfaceToAccessTheDataApi
 )

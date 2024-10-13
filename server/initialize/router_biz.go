@@ -18,8 +18,9 @@ func initBizRouter(routers ...*gin.RouterGroup) {
 		stRouter.InitAppUserRouter(privateGroup, publicGroup)
 		stRouter.InitArouselImageRouter(privateGroup, publicGroup)
 		stRouter.InitAnnouncementManagementRouter(privateGroup, publicGroup)
-		stRouter.InitArticleManagementRouter(privateGroup, publicGroup) // 占位方法，保证文件可以正确加载，避免go空变量检测报错，请勿删除。
-		stRouter.InitCategoricalNavigationManagementRouter(privateGroup, publicGroup)
+		stRouter.InitArticleManagementRouter(privateGroup, publicGroup)
+		stRouter.InitCategoricalNavigationManagementRouter(privateGroup, publicGroup) // 占位方法，保证文件可以正确加载，避免go空变量检测报错，请勿删除。
+		stRouter.InitInterfaceToAccessTheDataRouter(privateGroup, publicGroup)
 	}
 	{
 		goldenHouseManagementRouter := router.RouterGroupApp.GoldenHouseManagement

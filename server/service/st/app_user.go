@@ -6,6 +6,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/st"
 	stReq "github.com/flipped-aurora/gin-vue-admin/server/model/st/request"
 	"github.com/gofrs/uuid/v5"
+	"time"
 )
 
 type AppUserService struct{}
@@ -78,10 +79,6 @@ func (appUserService *AppUserService) GetAppUserInfoList(info stReq.AppUserSearc
 	err = db.Find(&appUsers).Error
 	return appUsers, total, err
 }
-func (appUserService *AppUserService) GetAppUserPublic() {
-	// 此方法为获取数据源定义的数据
-	// 请自行实现
-}
 
 // Login 方法介绍
 // Author [yourname](https://github.com/yourname)
@@ -130,4 +127,40 @@ func (appUserService *AppUserService) Upnickname(id uint, nickname string) (user
 	user.Nickname = nickname
 	err = global.GVA_DB.Where("id = ?", id).Updates(&user).Error
 	return
+}
+
+// GetTheNumberOfRegisteredUsersTodays 获取今日注册用户数量
+// Author [yourname](https://github.com/yourname)
+func (appUserService *AppUserService) GetTheNumberOfRegisteredUsersTodays() (i int64, err error) {
+	// 获取当前时间
+	now := time.Now()
+	// 设置时间为今天 00:00:00
+	todayMidnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	// 格式化时间为 ISO 8601 格式
+	todayStart := todayMidnight.Format(time.RFC3339)
+	todayEnd := now.Format(time.RFC3339)
+
+	var count int64
+	//var appUsers []st.AppUser
+	err = global.GVA_DB.Model(&st.AppUser{}).Where("created_at BETWEEN ? AND ?", todayStart, todayEnd).Count(&count).Error
+
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+
+}
+
+// TotalNumberOfRegisteredUsers 注册用户总数
+// Author [yourname](https://github.com/yourname)
+func (appUserService *AppUserService) TotalNumberOfRegisteredUsers() (i int64, err error) {
+	// 请在这里实现自己的业务逻辑
+	var count int64
+	err = global.GVA_DB.Model(&st.AppUser{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }

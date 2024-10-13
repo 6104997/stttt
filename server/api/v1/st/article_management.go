@@ -5,6 +5,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/st"
 	stReq "github.com/flipped-aurora/gin-vue-admin/server/model/st/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid/v5"
 	"go.uber.org/zap"
@@ -182,6 +183,13 @@ func (articleManagementApi *ArticleManagementApi) GetAListOfArticles(c *gin.Cont
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, "获取成功", c)
+
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "获取文章列表", "/articleManagement/getAListOfArticles")
 }
 
 // GetArticleManagementByUUID 根据UUID获取文章记录
@@ -202,4 +210,10 @@ func (articleManagementApi *ArticleManagementApi) GetArticleManagementByUUID(c *
 		return
 	}
 	response.OkWithData(rearticleManagement, c)
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "根据UUID获取文章记录", "/articleManagement/getArticleManagementByUUID")
 }

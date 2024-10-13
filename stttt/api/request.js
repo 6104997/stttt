@@ -106,7 +106,7 @@ export const convertTimeFormat = (tim) => {
 export function uploadFile(filePath, uuid) {
 	return new Promise((resolve, reject) => {
 		wx.uploadFile({
-			url: 'https://api.app.gys9.com//fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
+			url: 'https://api.app.gys9.com/fileUploadAndDownload/upload', // 仅为示例，非真实的接口地址
 			filePath: filePath,
 			name: 'file',
 			formData: {

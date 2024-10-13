@@ -80,8 +80,9 @@
 	async function Update() {
 		if (temporaryAddress) {
 			const res = await uploadFile(temporaryAddress, Userinfos.value.uuid);
+			console.log(res);
 			const data = JSON.parse(res.data);
-			console.log(data);
+			
 
 			if (data.code == 0) {
 				const urls = data.data.file.url;

@@ -68,7 +68,7 @@ const convertTimeFormat = (tim) => {
 function uploadFile(filePath, uuid) {
   return new Promise((resolve, reject) => {
     common_vendor.wx$1.uploadFile({
-      url: "https://api.app.gys9.com//fileUploadAndDownload/upload",
+      url: "https://api.app.gys9.com/fileUploadAndDownload/upload",
       // 仅为示例，非真实的接口地址
       filePath,
       name: "file",

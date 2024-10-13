@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/user-profile/user-profile",
+          "pathName": "pages/user-profile/user-profile",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/classification/classification",
           "pathName": "pages/classification/classification",
           "query": "",

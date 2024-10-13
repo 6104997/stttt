@@ -173,3 +173,29 @@ export const upnickname = () => {
     method: 'GET'
   })
 }
+// GetTheNumberOfRegisteredUsersTodays 获取今日注册用户数量
+// @Tags AppUser
+// @Summary 获取今日注册用户数量
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/getTheNumberOfRegisteredUsersTodays [GET]
+export const getTheNumberOfRegisteredUsersTodays = () => {
+  return service({
+    url: '/appUser/getTheNumberOfRegisteredUsersTodays',
+    method: 'GET'
+  })
+}
+// TotalNumberOfRegisteredUsers 注册用户总数
+// @Tags AppUser
+// @Summary 注册用户总数
+// @accept application/json
+// @Produce application/json
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/totalNumberOfRegisteredUsers [GET]
+export const totalNumberOfRegisteredUsers = () => {
+  return service({
+    url: '/appUser/totalNumberOfRegisteredUsers',
+    method: 'GET'
+  })
+}

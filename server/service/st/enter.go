@@ -6,4 +6,5 @@ type ServiceGroup struct {
 	AnnouncementManagementService
 	ArticleManagementService
 	CategoricalNavigationManagementService
+	InterfaceToAccessTheDataService
 }

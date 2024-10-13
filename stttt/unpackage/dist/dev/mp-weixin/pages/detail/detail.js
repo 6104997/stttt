@@ -47,4 +47,5 @@ const _sfc_main = {
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-eca06f3c"]]);
+_sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);

@@ -14,10 +14,10 @@
     <div class=" w-full relative">
       <div v-if="type !== 4">
         <div class="mt-4 text-gray-600 text-3xl font-mono">
-          <el-statistic :value="268500" />
+          <el-statistic :value="number" />
         </div>
         <div class="mt-2 text-green-600 text-sm font-bold font-mono">
-          +80% <el-icon><TopRight /></el-icon>
+           <el-icon><TopRight /></el-icon>
         </div>
       </div>
       <div class=" absolute top-0 right-2 w-[50%] h-20">
@@ -35,6 +35,8 @@
 
 import chartsPeopleNumber from "./charts-people-numbers.vue"
 import chartsContentNumber from "./charts-content-numbers.vue"
+
+
 defineProps({
   type :{
     type : Number,
@@ -43,7 +45,12 @@ defineProps({
   title : {
     type : String,
     default : ""
+  },
+  number : {
+    type : Number,
+    default : 0
   }
+
 })
 
 const data = [

@@ -13,6 +13,7 @@ import (
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
+
 	"time"
 )
 
@@ -157,23 +158,13 @@ func (appUserApi *AppUserApi) GetAppUserList(c *gin.Context) {
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, "获取成功", c)
-}
 
-// GetAppUserPublic 不需要鉴权的appUser表接口
-// @Tags AppUser
-// @Summary 不需要鉴权的appUser表接口
-// @accept application/json
-// @Produce application/json
-// @Param data query stReq.AppUserSearch true "分页获取appUser表列表"
-// @Success 200 {object} response.Response{data=object,msg=string} "获取成功"
-// @Router /appUser/getAppUserPublic [get]
-func (appUserApi *AppUserApi) GetAppUserPublic(c *gin.Context) {
-	// 此接口不需要鉴权
-	// 示例为返回了一个固定的消息接口，一般本接口用于C端服务，需要自己实现业务逻辑
-	appUserService.GetAppUserPublic()
-	response.OkWithDetailed(gin.H{
-		"info": "不需要鉴权的appUser表接口信息",
-	}, "获取成功", c)
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "分页获取appUser表列表", "/appUser/getAppUserList")
 }
 
 // Login 登入接口
@@ -234,6 +225,13 @@ func (appUserApi *AppUserApi) Login(c *gin.Context) {
 		"user":   res,
 		"info":   "登入成功",
 	}, c)
+
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "登入接口", "/appUser/Login")
 }
 
 // GetUserinfo 用户数据表单
@@ -260,6 +258,8 @@ func (appUserApi *AppUserApi) GetUserinfo(c *gin.Context) {
 		return
 	}
 	response.OkWithData(user, c)
+	clientIP := c.ClientIP()
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "用户数据表单", "/appUser/getUserinfo")
 }
 
 // UpdateTheImage 更新头像
@@ -284,11 +284,17 @@ func (appUserApi *AppUserApi) UpdateTheImage(c *gin.Context) {
 		return
 	}
 	response.OkWithData("更新成功", c)
+
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "更新头像", "/appUser/updateTheImage")
 }
 
-// Upnickname 方法介绍
+// Upnickname 修改昵称
 // @Tags AppUser
-// @Summary 方法介绍
+// @Summary 修改昵称
 // @accept application/json
 // @Produce application/json
 // @Param data query stReq.AppUserSearch true "成功"
@@ -309,4 +315,64 @@ func (appUserApi *AppUserApi) Upnickname(c *gin.Context) {
 		return
 	}
 	response.OkWithData("修改昵称成功", c)
+
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "修改昵称", "/appUser/upnickname")
+}
+
+// GetTheNumberOfRegisteredUsersTodays 获取今日注册用户数量
+// @Tags AppUser
+// @Summary 获取今日注册用户数量
+// @accept application/json
+// @Produce application/json
+// @Param data query stReq.AppUserSearch true "成功"
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/getTheNumberOfRegisteredUsersTodays [GET]
+func (appUserApi *AppUserApi) GetTheNumberOfRegisteredUsersTodays(c *gin.Context) {
+	// 请添加自己的业务逻辑
+	number, err := appUserService.GetTheNumberOfRegisteredUsersTodays()
+
+	if err != nil {
+		global.GVA_LOG.Error("失败!", zap.Error(err))
+		response.FailWithMessage("失败", c)
+		return
+	}
+	response.OkWithData(gin.H{"number": number}, c)
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "获取今日注册用户数量", "/appUser/getTheNumberOfRegisteredUsersTodays")
+
+}
+
+// totalNumberOfRegisteredUsers
+// TotalNumberOfRegisteredUsers 注册用户总数
+// @Tags AppUser
+// @Summary 注册用户总数
+// @accept application/json
+// @Produce application/json
+// @Param data query stReq.AppUserSearch true "成功"
+// @Success 200 {object} response.Response{data=object,msg=string} "成功"
+// @Router /appUser/totalNumberOfRegisteredUsers [GET]
+func (appUserApi *AppUserApi) TotalNumberOfRegisteredUsers(c *gin.Context) {
+	// 请添加自己的业务逻辑
+	total, err := appUserService.TotalNumberOfRegisteredUsers()
+	if err != nil {
+		global.GVA_LOG.Error("失败!", zap.Error(err))
+		response.FailWithMessage("失败", c)
+		return
+	}
+	response.OkWithData(gin.H{"total": total}, c)
+	id := utils.GetUserID(c)
+	clientIP := c.ClientIP()
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	err = interfaceToAccessTheDataService.AddUserAccessRecords(id, clientIP, "获取注册用户总数", "/appUser/totalNumberOfRegisteredUsers")
+
 }

@@ -42,7 +42,7 @@ const _sfc_main = {
       });
     };
     const GetListOfAnnouncements = async () => {
-      let res = await api_request.getAListOfArticles("1", "1", "0");
+      let res = await api_request.getAListOfArticles("1", "5", "0");
       if (res.code === 0) {
         ListOfAnnouncements.value = res.data.list;
       }
@@ -127,4 +127,5 @@ const _sfc_main = {
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"]]);
+_sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);

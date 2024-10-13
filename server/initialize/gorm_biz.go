@@ -8,7 +8,7 @@ import (
 
 func bizModel() error {
 	db := global.GVA_DB
-	err := db.AutoMigrate(st.AppUser{}, st.ArouselImage{}, st.AnnouncementManagement{}, st.ArticleManagement{}, goldenHouseManagement.GoldenRoomForm{}, goldenHouseManagement.UserGoldData{}, st.CategoricalNavigationManagement{})
+	err := db.AutoMigrate(st.AppUser{}, st.ArouselImage{}, st.AnnouncementManagement{}, st.ArticleManagement{}, goldenHouseManagement.GoldenRoomForm{}, goldenHouseManagement.UserGoldData{}, st.CategoricalNavigationManagement{}, st.InterfaceToAccessTheData{})
 	if err != nil {
 		return err
 	}

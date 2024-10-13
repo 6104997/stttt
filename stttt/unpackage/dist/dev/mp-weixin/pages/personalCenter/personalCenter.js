@@ -21,8 +21,8 @@ const _sfc_main = {
     async function Update() {
       if (temporaryAddress) {
         const res = await api_request.uploadFile(temporaryAddress, Userinfos.value.uuid);
+        console.log(res);
         const data = JSON.parse(res.data);
-        console.log(data);
         if (data.code == 0) {
           const urls = data.data.file.url;
           console.log(urls);
@@ -70,4 +70,5 @@ const _sfc_main = {
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-7b035f71"]]);
+_sfc_main.__runtimeHooks = 2;
 wx.createPage(MiniProgramPage);

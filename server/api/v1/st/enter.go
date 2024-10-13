@@ -8,6 +8,7 @@ type ApiGroup struct {
 	AnnouncementManagementApi
 	ArticleManagementApi
 	CategoricalNavigationManagementApi
+	InterfaceToAccessTheDataApi
 }
 
 var (
@@ -16,4 +17,5 @@ var (
 	announcementManagementService          = service.ServiceGroupApp.StServiceGroup.AnnouncementManagementService
 	articleManagementService               = service.ServiceGroupApp.StServiceGroup.ArticleManagementService
 	categoricalNavigationManagementService = service.ServiceGroupApp.StServiceGroup.CategoricalNavigationManagementService
+	interfaceToAccessTheDataService        = service.ServiceGroupApp.StServiceGroup.InterfaceToAccessTheDataService
 )

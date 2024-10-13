@@ -120,7 +120,7 @@ func (articleManagementService *ArticleManagementService) GetAListOfArticles(inf
 		db = db.Where("account_type = ?", info.AccountType)
 
 	}
-
+	db = db.Order("created_at DESC")
 	db = db.Debug().Where("article_status = ? AND article_classification_id = ?", "1", articleClassificationId)
 	err = db.Count(&total).Error
 	if err != nil {
