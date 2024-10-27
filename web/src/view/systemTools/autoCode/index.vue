@@ -805,7 +805,7 @@
 <script setup>
 
 import FieldDialog from '@/view/systemTools/autoCode/component/fieldDialog.vue'
-import PreviewCodeDialog from '@/view/systemTools/autoCode/component/previewCodeDialg.vue'
+import PreviewCodeDialog from '@/view/systemTools/autoCode/component/previewCodeDialog.vue'
 import { toUpperCase, toHump, toSQLLine, toLowerCase } from '@/utils/stringFun'
 import { createTemp, getDB, getTable, getColumn, preview, getMeta, getPackageApi,llmAuto } from '@/api/autoCode'
 import { getDict } from '@/utils/dictionary'
@@ -849,6 +849,18 @@ const llmAutoFunc = async (flag) =>{
     ElMessage.error('请输入描述')
     return
   }
+
+  if(form.value.fields.length>0){
+    const res = await ElMessageBox.confirm('AI生成会清空当前数据，是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    if (res !== 'confirm') {
+      return
+    }
+  }
+
   const res = await llmAuto({prompt:flag?'结构体名称为'+form.value.structName:prompt.value})
   if (res.code === 0) {
     form.value.fields = []
