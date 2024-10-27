@@ -2,7 +2,7 @@
 	<view class="classclassification PageBg">
 		<z-paging ref="paging" v-model="customGetArticless" @query="queryList" :default-page-size="5">
 			<custom-bav-bar title="分类"></custom-bav-bar>
-
+			
 			<common-title>
 				<template #name>置顶公告</template>
 				<template #custom>
@@ -16,7 +16,8 @@
 						:CreatedAt="convertTimeFormat(item.created_at)"></component-articleList>
 				</navigator>
 			</view>
-
+			<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+				binderror="adError" bindclose="adClose"></ad>
 			<scroll-view class="scroll-content" scroll-x="true">
 				<view class="scroll-item" v-for="(item,index) in listOfArticles" :key="index"
 					@tap='changeTab(index,item.navigationUrl)'>
@@ -24,7 +25,7 @@
 						:class='listOfArticlesIndex===index? "f-active-color":"f-color"'>{{item.navigationName}}</text>
 				</view>
 			</scroll-view>
-
+			
 
 			<view v-for="item in customGetArticless" :key="item.uuid">
 				<navigator :url="'/pages/detail/detail?uuid='+item.uuid">
@@ -33,8 +34,7 @@
 				</navigator>
 			</view>
 			<view :style="{ height:'20px'}"></view>
-			<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
-				binderror="adError" bindclose="adClose"></ad>
+			
 		</z-paging>
 	</view>
 

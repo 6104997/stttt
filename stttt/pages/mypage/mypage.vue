@@ -8,7 +8,7 @@
 			</view>
 			<view class="userName weui-input" @click="clickJump">{{User.nickname}}</view>
 
-
+			
 
 			<view class="userId">ID:{{User.ID}}</view>
 			<view class="userInfo">

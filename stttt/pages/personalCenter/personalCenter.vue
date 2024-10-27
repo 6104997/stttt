@@ -6,7 +6,7 @@
 		<button class="imageButton" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
 			<image class="image" :src='Userinfos.image'></image>
 		</button>
-
+		<view class="text">点击头像更换头像</view>
 		<view class="info-section">
 			<view class="info-item">
 				<text>昵称</text>
@@ -147,7 +147,12 @@
 			}
 		}
 	}
-
+	.text{
+		display: flex;
+		justify-content: center;
+		padding-top: 20rpx;
+		color: #999999;
+	}
 	.profile-picture {
 		display: flex;
 		justify-content: center;

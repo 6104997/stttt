@@ -38,6 +38,12 @@
   width: 100%;
   height: 100%;
 }
+.text.data-v-7b035f71 {
+  display: flex;
+  justify-content: center;
+  padding-top: 20rpx;
+  color: #999999;
+}
 .profile-picture.data-v-7b035f71 {
   display: flex;
   justify-content: center;

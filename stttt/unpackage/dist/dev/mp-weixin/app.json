@@ -4,8 +4,7 @@
     "pages/mypage/mypage",
     "pages/personalCenter/personalCenter",
     "pages/classification/classification",
-    "pages/detail/detail",
-    "pages/user-profile/user-profile"
+    "pages/detail/detail"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -11,7 +11,8 @@
 					</swiper-item>
 				</swiper>
 			</view>
-
+			<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
+				binderror="adError" bindclose="adClose"></ad>
 			<common-title>
 				<template #name>金房信息</template>
 				<template #custom>
@@ -59,8 +60,7 @@
 				</navigator>
 			</view>
 			<view :style="{ height:'20px'}"></view>
-			<ad unit-id="adunit-a2ae79342f0f4a70" ad-intervals="30" ad-type="video" ad-theme="white" bindload="adLoad"
-				binderror="adError" bindclose="adClose"></ad>
+			
 		</z-paging>
 
 	</view>
