@@ -13,7 +13,7 @@
                 {{- if or (eq .FieldType "enum") (eq .FieldType "pictures") (eq .FieldType "picture") (eq .FieldType "video") (eq .FieldType "json") }}
 if info.{{.FieldName}} != "" {
         {{- if or (eq .FieldType "enum") }}
-    db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+ {{ end }}info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
+    db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+ {{ end }}*info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
         {{- else}}
 // 数据类型为复杂类型，请根据业务需求自行实现复杂类型的查询业务
         {{- end}}
@@ -23,8 +23,8 @@ if info.Start{{.FieldName}} != nil && info.End{{.FieldName}} != nil {
     db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ? AND ? ",info.Start{{.FieldName}},info.End{{.FieldName}})
 }
     {{- else}}
-if info.{{.FieldName}} != nil {
-    db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+{{ end }}info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
+if info.{{.FieldName}} != nil{{- if eq .FieldType "string" }} && *info.{{.FieldName}} != ""{{- end }} {
+    db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+{{ end }}*info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
 }
             {{- end }}
         {{- end }}
@@ -49,7 +49,7 @@ orderMap["{{.ColumnName}}"] = true
 {{- else}}
 {{ $dataDB = printf "global.MustGetGlobalDBByDBName(\"%s\")" $value.DBName }}
 {{- end}}
-{{$dataDB}}.Table("{{$value.Table}}").Select("{{$value.Label}} as label,{{$value.Value}} as value").Scan(&{{$key}})
+{{$dataDB}}.Table("{{$value.Table}}"){{- if $value.HasDeletedAt}}.Where("deleted_at IS NULL"){{ end }}.Select("{{$value.Label}} as label,{{$value.Value}} as value").Scan(&{{$key}})
 res["{{$key}}"] = {{$key}}
 	{{- end }}
 {{- end }}
@@ -60,7 +60,12 @@ import (
 {{- if not .OnlyTemplate }}
 	"{{.Module}}/global"
 	"{{.Module}}/model/{{.Package}}"
+	{{- if not .IsTree}}
     {{.Package}}Req "{{.Module}}/model/{{.Package}}/request"
+    {{- else }}
+    "{{.Module}}/utils"
+    "errors"
+    {{- end }}
     {{- if .AutoCreateResource }}
     "gorm.io/gorm"
     {{- end}}
@@ -80,6 +85,17 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service) Create{{.StructName}}({{
 // Delete{{.StructName}} 删除{{.Description}}记录
 // Author [yourname](https://github.com/yourname)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Delete{{.StructName}}({{.PrimaryField.FieldJson}} string{{- if .AutoCreateResource -}},userID uint{{- end -}}) (err error) {
+	{{- if .IsTree }}
+       var count int64
+	   err = {{$db}}.Find(&{{.Package}}.{{.StructName}}{},"parent_id = ?",{{.PrimaryField.FieldJson}}).Count(&count).Error
+	   if count > 0 {
+           return errors.New("此节点存在子节点不允许删除")
+       }
+       if err != nil {
+           return err
+       }
+	{{- end }}
+
 	{{- if .AutoCreateResource }}
 	err = {{$db}}.Transaction(func(tx *gorm.DB) error {
 	    if err := tx.Model(&{{.Package}}.{{.StructName}}{}).Where("{{.PrimaryField.ColumnName}} = ?", {{.PrimaryField.FieldJson}}).Update("deleted_by", userID).Error; err != nil {
@@ -129,6 +145,20 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}({{.Pri
 	return
 }
 
+
+{{- if .IsTree }}
+// Get{{.StructName}}InfoList 分页获取{{.Description}}记录,Tree模式下不添加分页和搜索
+// Author [yourname](https://github.com/yourname)
+func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoList() (list []*{{.Package}}.{{.StructName}},err error) {
+    // 创建db
+	db := {{$db}}.Model(&{{.Package}}.{{.StructName}}{})
+    var {{.Abbreviation}}s []*{{.Package}}.{{.StructName}}
+
+	err = db.Find(&{{.Abbreviation}}s).Error
+
+	return utils.BuildTree({{.Abbreviation}}s), err
+}
+{{- else }}
 // Get{{.StructName}}InfoList 分页获取{{.Description}}记录
 // Author [yourname](https://github.com/yourname)
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoList(info {{.Package}}Req.{{.StructName}}Search) (list []{{.Package}}.{{.StructName}}, total int64, err error) {
@@ -148,7 +178,7 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoLis
                 {{- if or (eq .FieldType "enum") (eq .FieldType "pictures") (eq .FieldType "picture") (eq .FieldType "video") (eq .FieldType "json") }}
     if info.{{.FieldName}} != "" {
         {{- if or (eq .FieldType "enum")}}
-        db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+ {{ end }}info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
+        db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+ {{ end }}*info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
         {{- else}}
         // 数据类型为复杂类型，请根据业务需求自行实现复杂类型的查询业务
         {{- end}}
@@ -158,8 +188,8 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoLis
             db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ? AND ? ",info.Start{{.FieldName}},info.End{{.FieldName}})
         }
     {{- else}}
-    if info.{{.FieldName}} != nil {
-        db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+{{ end }}info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
+    if info.{{.FieldName}} != nil{{- if eq .FieldType "string" }} && *info.{{.FieldName}} != ""{{- end }} {
+        db = db.Where("{{.ColumnName}} {{.FieldSearchType}} ?",{{if eq .FieldSearchType "LIKE"}}"%"+{{ end }}*info.{{.FieldName}}{{if eq .FieldSearchType "LIKE"}}+"%"{{ end }})
     }
             {{- end }}
         {{- end }}
@@ -193,6 +223,8 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}InfoLis
 	return  {{.Abbreviation}}s, total, err
 }
 
+{{- end }}
+
 {{- if .HasDataSource }}
 func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}DataSource() (res map[string][]map[string]any, err error) {
 	res = make(map[string][]map[string]any)
@@ -204,7 +236,7 @@ func ({{.Abbreviation}}Service *{{.StructName}}Service)Get{{.StructName}}DataSou
        {{- else}}
        {{ $dataDB = printf "global.MustGetGlobalDBByDBName(\"%s\")" $value.DBName }}
        {{- end}}
-       {{$dataDB}}.Table("{{$value.Table}}").Select("{{$value.Label}} as label,{{$value.Value}} as value").Scan(&{{$key}})
+       {{$dataDB}}.Table("{{$value.Table}}"){{- if $value.HasDeletedAt}}.Where("deleted_at IS NULL"){{ end }}.Select("{{$value.Label}} as label,{{$value.Value}} as value").Scan(&{{$key}})
 	   res["{{$key}}"] = {{$key}}
 	{{- end }}
 	return

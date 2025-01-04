@@ -27,6 +27,8 @@ type AutoCode struct {
 	AutoCreateMenuToSql bool                   `json:"autoCreateMenuToSql" example:"false"` // 是否自动创建menu
 	AutoCreateBtnAuth   bool                   `json:"autoCreateBtnAuth" example:"false"`   // 是否自动创建按钮权限
 	OnlyTemplate        bool                   `json:"onlyTemplate" example:"false"`        // 是否只生成模板
+	IsTree              bool                   `json:"isTree" example:"false"`              // 是否树形结构
+	TreeJson            string                 `json:"treeJson" example:"展示的树json字段"`       // 展示的树json字段
 	IsAdd               bool                   `json:"isAdd" example:"false"`               // 是否新增
 	Fields              []*AutoCodeField       `json:"fields"`
 	Module              string                 `json:"-"`
@@ -46,11 +48,12 @@ type AutoCode struct {
 }
 
 type DataSource struct {
-	DBName      string `json:"dbName"`
-	Table       string `json:"table"`
-	Label       string `json:"label"`
-	Value       string `json:"value"`
-	Association int    `json:"association"` // 关联关系 1 一对一 2 一对多
+	DBName       string `json:"dbName"`
+	Table        string `json:"table"`
+	Label        string `json:"label"`
+	Value        string `json:"value"`
+	Association  int    `json:"association"` // 关联关系 1 一对一 2 一对多
+	HasDeletedAt bool   `json:"hasDeletedAt"`
 }
 
 func (r *AutoCode) Apis() []model.SysApi {
@@ -186,6 +189,11 @@ func (r *AutoCode) Pretreatment() error {
 			}
 		}
 	} // GvaModel
+	{
+		if r.IsAdd && r.PrimaryField == nil {
+			r.PrimaryField = new(AutoCodeField)
+		}
+	} // 新增字段模式下不关注主键
 	if r.Package == "" {
 		return errors.New("Package为空!")
 	} // 增加判断：Package不为空

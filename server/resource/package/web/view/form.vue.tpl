@@ -13,7 +13,7 @@
           {{- end }}
           {{- if eq .FieldType "string" }}
           {{- if .DictType}}
-    <el-select v-model="formData.{{ .FieldJson }}" placeholder="请选择{{.FieldDesc}}" style="width:100%" :clearable="{{.Clearable}}" >
+    <el-select {{if eq .FieldType "array"}}multiple {{end}}v-model="formData.{{ .FieldJson }}" placeholder="请选择{{.FieldDesc}}" style="width:100%" :clearable="{{.Clearable}}" >
         <el-option v-for="(item,key) in {{ .DictType }}Options" :key="key" :label="item.label" :value="item.value" />
     </el-select>
           {{- else }}
@@ -76,6 +76,12 @@
 const {{ $element }}Options = ref([])
     {{- end }}
 
+// init方法中增加如下调用
+
+{{- range $index, $element := .DictTypes }}
+    {{ $element }}Options.value = await getDictFunc('{{$element}}')
+{{- end }}
+
 // 基础formData结构增加如下字段
 {{- range .Fields}}
           {{- if .Form}}
@@ -89,7 +95,7 @@ const {{ $element }}Options = ref([])
 {{.FieldJson}}: '',
             {{- end }}
             {{- if eq .FieldType "int" }}
-{{.FieldJson}}: {{- if or .DictType .DataSource}} undefined{{ else }} 0{{- end }},
+{{.FieldJson}}: {{- if or .DataSource}} undefined{{ else }} 0{{- end }},
             {{- end }}
             {{- if eq .FieldType "time.Time" }}
 {{.FieldJson}}: new Date(),
@@ -159,6 +165,20 @@ getDataSourceFunc()
   <div>
     <div class="gva-form-box">
       <el-form :model="formData" ref="elFormRef" label-position="right" :rules="rule" label-width="80px">
+        {{- if .IsTree }}
+          <el-form-item label="父节点:" prop="parentID" >
+              <el-tree-select
+                  v-model="formData.parentID"
+                  :data="[rootNode,...tableData]"
+                  check-strictly
+                  :render-after-expand="false"
+                  :props="defaultProps"
+                  clearable
+                  style="width: 240px"
+                  placeholder="根节点"
+              />
+          </el-form-item>
+        {{- end }}
       {{- range .Fields}}
       {{- if .Form }}
         <el-form-item label="{{.FieldDesc}}:" prop="{{.FieldJson}}">
@@ -172,7 +192,7 @@ getDataSourceFunc()
       {{- end }}
       {{- if eq .FieldType "string" }}
       {{- if .DictType}}
-           <el-select v-model="formData.{{ .FieldJson }}" placeholder="请选择{{.FieldDesc}}" style="width:100%" :clearable="{{.Clearable}}" >
+           <el-select {{if eq .FieldType "array"}}multiple {{end}}v-model="formData.{{ .FieldJson }}" placeholder="请选择{{.FieldDesc}}" style="width:100%" :clearable="{{.Clearable}}" >
               <el-option v-for="(item,key) in {{ .DictType }}Options" :key="key" :label="item.label" :value="item.value" />
            </el-select>
       {{- else }}
@@ -220,7 +240,7 @@ getDataSourceFunc()
       {{- end }}
       {{- end }}
         <el-form-item>
-          <el-button type="primary" @click="save">保存</el-button>
+          <el-button :loading="btnLoading" type="primary" @click="save">保存</el-button>
           <el-button type="primary" @click="back">返回</el-button>
         </el-form-item>
       </el-form>
@@ -232,6 +252,9 @@ getDataSourceFunc()
 import {
   {{- if .HasDataSource }}
     get{{.StructName}}DataSource,
+  {{- end }}
+  {{- if .IsTree }}
+    get{{.StructName}}List,
   {{- end }}
   create{{.StructName}},
   update{{.StructName}},
@@ -271,11 +294,43 @@ import ArrayCtrl from '@/components/arrayCtrl/arrayCtrl.vue'
 const route = useRoute()
 const router = useRouter()
 
+{{- if .IsTree }}
+const tableData = ref([])
+
+const defaultProps = {
+  children: "children",
+  label: "{{ .TreeJson }}",
+  value: "{{ .PrimaryField.FieldJson }}"
+}
+
+const rootNode = {
+  {{ .PrimaryField.FieldJson }}: 0,
+  {{ .TreeJson }}: '根节点',
+  children: []
+}
+
+const getTableData = async() => {
+  const table = await get{{.StructName}}List()
+  if (table.code === 0) {
+    tableData.value = table.data || []
+  }
+}
+
+getTableData()
+
+{{- end }}
+
+// 提交按钮loading
+const btnLoading = ref(false)
+
 const type = ref('')
     {{- range $index, $element := .DictTypes}}
 const {{ $element }}Options = ref([])
     {{- end }}
 const formData = ref({
+        {{- if .IsTree }}
+            parentID: undefined,
+        {{- end }}
         {{- range .Fields}}
           {{- if .Form }}
             {{- if eq .FieldType "bool" }}
@@ -288,7 +343,7 @@ const formData = ref({
             {{.FieldJson}}: '',
             {{- end }}
             {{- if eq .FieldType "int" }}
-            {{.FieldJson}}: {{- if or .DictType .DataSource }} undefined{{ else }} 0{{- end }},
+            {{.FieldJson}}: {{- if or .DataSource }} undefined{{ else }} 0{{- end }},
             {{- end }}
             {{- if eq .FieldType "time.Time" }}
             {{.FieldJson}}: new Date(),
@@ -363,8 +418,9 @@ const init = async () => {
 init()
 // 保存按钮
 const save = async() => {
+      btnLoading.value = true
       elFormRef.value?.validate( async (valid) => {
-         if (!valid) return
+         if (!valid) return btnLoading.value = false
             let res
            switch (type.value) {
              case 'create':
@@ -377,6 +433,7 @@ const save = async() => {
                res = await create{{.StructName}}(formData.value)
                break
            }
+           btnLoading.value = false
            if (res.code === 0) {
              ElMessage({
                type: 'success',
